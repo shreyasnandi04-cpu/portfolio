@@ -114,6 +114,15 @@
       border: 1px solid rgba(245, 200, 66, 0.25);
     }
     .nav-links a.nav-live:hover { background: rgba(245, 200, 66, 0.22); }
+    /* route back to the personal portfolio — this page is a sub-page of it */
+    .nav-links a.nav-home {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(232, 200, 125, 0.10);
+      color: var(--gold);
+      border: 1px solid rgba(232, 200, 125, 0.28);
+      margin-right: 0.4rem;
+    }
+    .nav-links a.nav-home:hover { background: rgba(232, 200, 125, 0.20); color: #f4ecdc; }
 
     /* ─── Particle Canvas ─── */
     #particle-canvas {
@@ -989,7 +998,11 @@
     }
     @media (max-width: 768px) {
       .nav { padding: 0 1.2rem; }
-      .nav-links { display: none; }
+      /* this page has no mobile drawer, so keep the route home reachable —
+         hide the section anchors but never the Portfolio link */
+      .nav-links { display: flex; gap: 0; }
+      .nav-links a { display: none; }
+      .nav-links a.nav-home { display: inline-flex; margin-right: 0; }
       .section { padding: 4rem 1.2rem; }
       .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
       .modules-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1202,6 +1215,7 @@
     <span>CrownDesk</span>
   </a>
   <div class="nav-links">
+    <a href="shreyas.html" class="nav-home"><svg class="ic"><use href="#ic-star8"/></svg> Portfolio</a>
     <a href="#ecosystem">Ecosystem</a>
     <a href="#jobdesk">JobDesk</a>
     <a href="#nexora">Nexora</a>
