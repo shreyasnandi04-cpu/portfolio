@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrownDesk Ecosystem — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Gold line icons ─── */
+    .ic-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .ic {
+      width: 1.35em; height: 1.35em;
+      fill: none;
+      stroke: url(#goldStroke);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: -0.24em;
+      filter: drop-shadow(0 0 6px rgba(232,200,125,.45));
+      overflow: visible;
+      flex: none;
+    }
+    /* on filled surfaces a gold stroke is invisible — follow the text colour instead */
+    .btn .ic, .nav-crown .ic, .social-action .ic, .about-link.primary .ic {
+      stroke: currentColor;
+      filter: none;
+    }
+
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #ffffff;
+      color: #f4ecdc;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; }
+
+    /* ─── CSS Variables ─── */
+    :root {
+      /* --sp = scroll progress 0→1, set in JS. Drives the dusk→midnight shift. */
+      --sp: 0;
+
+      --gold: #f5c842;
+      --gold-dim: #b8912e;
+      --hub-bg: #eef1f6;
+
+      --jd-cyan: #00d4ff;
+      --jd-teal: #00b4d8;
+      --jd-dark: #eef6fc;
+
+      --nx-purple: #6366f1;
+      --nx-pink: #ec4899;
+      --nx-blue: #818cf8;
+      --nx-dark: #f7f5fc;
+
+      --mn-green: #00e5a0;
+      --mn-blue: #0099cc;
+      --mn-dark: #edf9f6;
+
+      --radius: 20px;
+      --radius-sm: 12px;
+    }
+
+    /* ─── Scrollbar ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #eef1f6; }
+    ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+    /* ─── Navigation ─── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 68px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 1.1rem;
+    }
+    .nav-crown {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--gold), #ffab00);
+      border-radius: 10px;
+      display: grid; place-items: center;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px rgba(245, 200, 66, 0.4);
+      animation: pulse-crown 3s ease-in-out infinite;
+    }
+    @keyframes pulse-crown {
+      0%, 100% { box-shadow: 0 0 20px rgba(245, 200, 66, 0.4); }
+      50% { box-shadow: 0 0 40px rgba(245, 200, 66, 0.7); }
+    }
+    .nav-links { display: flex; align-items: center; gap: 0.2rem; }
+    .nav-links a {
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.88rem; font-weight: 500;
+      color: rgba(232, 234, 246, 0.7);
+      transition: all 0.2s;
+    }
+    .nav-links a:hover { color: #f4ecdc; background: rgba(15,23,42,0.05); }
+    .nav-links a.nav-live {
+      background: rgba(245, 200, 66, 0.12);
+      color: var(--gold);
+      border: 1px solid rgba(245, 200, 66, 0.25);
+    }
+    .nav-links a.nav-live:hover { background: rgba(245, 200, 66, 0.22); }
+
+    /* ─── Particle Canvas ─── */
+    #particle-canvas {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+
+    /* ─── Hero Section ─── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 7rem 2rem 4rem;
+      overflow: hidden;
+      background: radial-gradient(ellipse at 50% 0%, rgba(245,200,66,0.12) 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 80%, rgba(157,78,221,0.08) 0%, transparent 50%),
+                  #ffffff;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 700px; height: 700px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      background: radial-gradient(circle, rgba(245,200,66,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1.1rem;
+      background: rgba(245,200,66,0.1);
+      border: 1px solid rgba(245,200,66,0.25);
+      border-radius: 999px;
+      font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 1.8rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fade-up 0.7s ease 0.3s forwards;
+    }
+    .hero-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3.2rem, 8vw, 7rem);
+      font-weight: 800; line-height: 0.95;
+      letter-spacing: -0.04em;
+      opacity: 0; transform: translateY(30px);
+      animation: fade-up 0.8s ease 0.5s forwards;
+    }
+    .hero-title { color: #f4ecdc; }
+    .hero-title .crown-word {
+      background: linear-gradient(135deg, var(--gold), #ffab00, #ff6b35);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      margin: 1.4rem auto 0;
+      max-width: 620px;
+      font-size: 1.15rem; line-height: 1.75;
+      color: rgba(198,205,218,.78);
+      opacity: 0; transform: translateY(20px);
+      animation: fade-up 0.8s ease 0.75s forwards;
+    }
+    .hero-actions {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem;
+      margin-top: 2.4rem;
+      opacity: 0; transform: translateY(20px);
+      animation: fade-up 0.8s ease 1s forwards;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.6rem;
+      border-radius: 999px;
+      font-weight: 700; font-size: 0.95rem;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer; border: none;
+    }
+    .btn:hover { transform: translateY(-3px) scale(1.04); }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), #ffab00);
+      color: #0b1220;
+      box-shadow: 0 12px 32px rgba(245,200,66,0.35);
+    }
+    .btn-gold:hover { box-shadow: 0 20px 48px rgba(245,200,66,0.55); }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid rgba(15,23,42,0.2);
+      color: rgba(198,205,218,.70);
+    }
+    .btn-outline:hover { border-color: rgba(198,205,218,.68); color: #f4ecdc; background: rgba(15,23,42,0.06); }
+
+    /* Ecosystem stat strip */
+    .hero-stats {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 2.5rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(15,23,42,0.07);
+      opacity: 0; transform: translateY(20px);
+      animation: fade-up 0.8s ease 1.2s forwards;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.2rem; font-weight: 800;
+      background: linear-gradient(135deg, #0f172a, #475569);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-stat-label { font-size: 0.82rem; color: rgba(198,205,218,.68); margin-top: 0.25rem; font-weight: 500; }
+
+    /* scroll indicator */
+    .scroll-indicator {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(198,205,218,.55); font-size: 0.75rem; letter-spacing: 0.1em;
+      animation: bounce-scroll 2.5s ease-in-out infinite;
+    }
+    .scroll-line {
+      width: 1.5px; height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    @keyframes bounce-scroll {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.35; }
+      50% { transform: translateX(-50%) translateY(8px); opacity: 0.7; }
+    }
+
+    /* ─── Section Base ─── */
+    .section { padding: 6rem 2rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .section-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-top: 0.85rem;
+    }
+    .section-desc {
+      margin-top: 0.75rem;
+      max-width: 580px;
+      font-size: 1rem; line-height: 1.75;
+      color: rgba(198,205,218,.74);
+    }
+
+    /* ─── Reveal Animation ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0; transform: translateX(-40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0; transform: translateX(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+
+    @keyframes fade-up {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Ecosystem Map ─── */
+    .ecosystem-section {
+      background: linear-gradient(180deg, #ffffff 0%, #f3f5f9 100%);
+    }
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 3rem;
+    }
+    .eco-card {
+      position: relative;
+      padding: 1.8rem;
+      border-radius: var(--radius);
+      border: 1px solid rgba(15,23,42,0.07);
+      background: rgba(15,23,42,0.03);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.3s ease,
+                  border-color 0.3s ease;
+      overflow: hidden;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .eco-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--eco-glow);
+      opacity: 0; transition: opacity 0.35s;
+    }
+    .eco-card:hover { transform: translateY(-8px) scale(1.02); }
+    .eco-card:hover::before { opacity: 1; }
+    .eco-card.hub { --eco-glow: radial-gradient(circle at top left, rgba(245,200,66,0.12) 0%, transparent 60%); }
+    .eco-card.hub:hover { border-color: rgba(245,200,66,0.4); box-shadow: 0 24px 64px rgba(245,200,66,0.18); }
+    .eco-card.jobdesk { --eco-glow: radial-gradient(circle at top left, rgba(0,212,255,0.12) 0%, transparent 60%); }
+    .eco-card.jobdesk:hover { border-color: rgba(0,212,255,0.4); box-shadow: 0 24px 64px rgba(0,212,255,0.18); }
+    .eco-card.nexora { --eco-glow: radial-gradient(circle at top left, rgba(99,102,241,0.12) 0%, transparent 60%); }
+    .eco-card.nexora:hover { border-color: rgba(99,102,241,0.4); box-shadow: 0 24px 64px rgba(99,102,241,0.18); }
+    .eco-card.medinest { --eco-glow: radial-gradient(circle at top left, rgba(0,229,160,0.12) 0%, transparent 60%); }
+    .eco-card.medinest:hover { border-color: rgba(0,229,160,0.4); box-shadow: 0 24px 64px rgba(0,229,160,0.18); }
+    .eco-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: grid; place-items: center;
+      font-size: 1.4rem; margin-bottom: 1.1rem;
+    }
+    .eco-card.hub .eco-icon { background: rgba(245,200,66,0.15); }
+    .eco-card.jobdesk .eco-icon { background: rgba(0,212,255,0.15); }
+    .eco-card.nexora .eco-icon { background: rgba(99,102,241,0.15); }
+    .eco-card.medinest .eco-icon { background: rgba(0,229,160,0.15); }
+    .eco-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem; font-weight: 700;
+    }
+    .eco-card.hub .eco-name { color: var(--gold); }
+    .eco-card.jobdesk .eco-name { color: var(--jd-cyan); }
+    .eco-card.nexora .eco-name { color: var(--nx-purple); }
+    .eco-card.medinest .eco-name { color: var(--mn-green); }
+    .eco-desc { margin-top: 0.5rem; font-size: 0.88rem; color: rgba(198,205,218,.72); line-height: 1.6; }
+    .eco-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: 1.1rem; font-size: 0.82rem; font-weight: 600;
+      opacity: 0.7; transition: opacity 0.2s;
+    }
+    .eco-card:hover .eco-link { opacity: 1; }
+    .eco-card.hub .eco-link { color: var(--gold); }
+    .eco-card.jobdesk .eco-link { color: var(--jd-cyan); }
+    .eco-card.nexora .eco-link { color: var(--nx-purple); }
+    .eco-card.medinest .eco-link { color: var(--mn-green); }
+
+    /* ─── Product Sections ─── */
+
+    /* JobDesk */
+    .jobdesk-section {
+      background: linear-gradient(180deg, #f4f8fb 0%, #f1f8fc 100%);
+      position: relative; overflow: hidden;
+    }
+    .jobdesk-section::before {
+      content: '';
+      position: absolute; top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .product-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .product-tag { background: rgba(0,212,255,0.1); color: var(--jd-cyan); border: 1px solid rgba(0,212,255,0.2); }
+    .product-title-jd { color: #f4ecdc; }
+    .product-title-jd span {
+      background: linear-gradient(135deg, var(--jd-cyan), var(--jd-teal));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .feature-list { margin-top: 1.8rem; display: grid; gap: 0.75rem; }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      padding: 0.9rem 1rem;
+      border-radius: var(--radius-sm);
+      background: rgba(0,212,255,0.05);
+      border: 1px solid rgba(0,212,255,0.1);
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .feature-item:hover { background: rgba(0,212,255,0.1); border-color: rgba(0,212,255,0.2); }
+    .feature-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 5px;
+    }
+    .dot-jd { background: var(--jd-cyan); box-shadow: 0 0 8px var(--jd-cyan); }
+    .dot-nx { background: var(--nx-purple); box-shadow: 0 0 8px var(--nx-purple); }
+    .dot-mn { background: var(--mn-green); box-shadow: 0 0 8px var(--mn-green); }
+    .dot-hub { background: var(--gold); box-shadow: 0 0 8px var(--gold); }
+    .feature-text { font-size: 0.9rem; color: rgba(198,205,218,.84); line-height: 1.5; }
+    .feature-text strong { color: #f4ecdc; font-weight: 600; }
+
+    .product-visual {
+      position: relative;
+    }
+    .product-card-mock {
+      background: rgba(15,23,42,0.03);
+      border: 1px solid rgba(15,23,42,0.08);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      position: relative; overflow: hidden;
+    }
+    .mock-header {
+      display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1.5rem;
+    }
+    .mock-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .mock-title { font-size: 0.82rem; font-weight: 600; opacity: 0.5; }
+    .mock-bar {
+      height: 8px; border-radius: 999px; margin-bottom: 0.6rem;
+    }
+    .mock-chart {
+      margin-top: 1.2rem;
+      display: grid; grid-template-columns: repeat(7, 1fr);
+      gap: 0.4rem; align-items: end; height: 80px;
+    }
+    .mock-bar-v {
+      border-radius: 6px 6px 0 0;
+      transition: height 1s ease;
+    }
+    .mock-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.2rem; }
+    .mock-stat { padding: 0.8rem; border-radius: var(--radius-sm); text-align: center; }
+    .mock-stat-num { font-size: 1.4rem; font-weight: 800; }
+    .mock-stat-label { font-size: 0.72rem; opacity: 0.5; margin-top: 0.2rem; }
+    .mock-kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin-top: 0.8rem; }
+    .mock-kpi {
+      padding: 0.7rem; border-radius: var(--radius-sm);
+      border: 1px solid rgba(15,23,42,0.06);
+    }
+    .mock-kpi-v { font-size: 1.1rem; font-weight: 700; }
+    .mock-kpi-l { font-size: 0.7rem; opacity: 0.45; margin-top: 0.15rem; }
+
+    .tech-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .tech-chip {
+      padding: 0.38rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.78rem; font-weight: 600;
+      border: 1px solid rgba(15,23,42,0.1);
+    }
+    .chip-jd { background: rgba(0,212,255,0.08); color: var(--jd-cyan); border-color: rgba(0,212,255,0.2); }
+    .chip-nx { background: rgba(99,102,241,0.08); color: var(--nx-purple); border-color: rgba(99,102,241,0.2); }
+    .chip-mn { background: rgba(0,229,160,0.08); color: var(--mn-green); border-color: rgba(0,229,160,0.2); }
+    .chip-hub { background: rgba(245,200,66,0.08); color: var(--gold); border-color: rgba(245,200,66,0.2); }
+
+    .product-links { display: flex; gap: 0.9rem; flex-wrap: wrap; margin-top: 2rem; }
+    .btn-jd {
+      background: linear-gradient(135deg, var(--jd-cyan), var(--jd-teal));
+      color: #0b1220; box-shadow: 0 10px 28px rgba(0,212,255,0.3);
+    }
+    .btn-jd:hover { box-shadow: 0 18px 44px rgba(0,212,255,0.5); }
+    .btn-nx {
+      background: linear-gradient(135deg, var(--nx-purple), var(--nx-pink));
+      color: #fff; box-shadow: 0 10px 28px rgba(99,102,241,0.35);
+    }
+    .btn-nx:hover { box-shadow: 0 18px 44px rgba(99,102,241,0.55); }
+    .btn-mn {
+      background: linear-gradient(135deg, var(--mn-green), var(--mn-blue));
+      color: #0b1220; box-shadow: 0 10px 28px rgba(0,229,160,0.3);
+    }
+    .btn-mn:hover { box-shadow: 0 18px 44px rgba(0,229,160,0.5); }
+    .btn-hub {
+      background: linear-gradient(135deg, var(--gold), #ffab00);
+      color: #0b1220; box-shadow: 0 10px 28px rgba(245,200,66,0.3);
+    }
+    .btn-hub:hover { box-shadow: 0 18px 44px rgba(245,200,66,0.5); }
+
+    /* Nexora */
+    .nexora-section {
+      background: linear-gradient(180deg, #f6f5fd 0%, #f2f4fc 100%);
+      position: relative; overflow: hidden;
+    }
+    .nexora-section::before {
+      content: '';
+      position: absolute; top: -150px; left: -150px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+      pointer-events: none;
+      animation: float-orb 12s ease-in-out infinite;
+    }
+    .nexora-section::after {
+      content: '';
+      position: absolute; bottom: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(236,72,153,0.07) 0%, transparent 70%);
+      pointer-events: none;
+      animation: float-orb 16s ease-in-out infinite reverse;
+    }
+    @keyframes float-orb {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(30px,-20px) scale(1.1); }
+    }
+    .product-tag-nx { background: rgba(99,102,241,0.12); color: var(--nx-purple); border: 1px solid rgba(99,102,241,0.25); }
+    .product-title-nx span {
+      background: linear-gradient(135deg, var(--nx-purple), var(--nx-blue), var(--nx-pink));
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: gradient-shift 4s ease infinite;
+    }
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .feature-item-nx {
+      background: rgba(99,102,241,0.05);
+      border: 1px solid rgba(99,102,241,0.1);
+    }
+    .feature-item-nx:hover { background: rgba(99,102,241,0.12); border-color: rgba(99,102,241,0.25); }
+
+    .social-mock { display: grid; gap: 0.75rem; }
+    .social-post {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      background: rgba(157,78,221,0.06);
+      border: 1px solid rgba(157,78,221,0.12);
+    }
+    .social-post-header { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.6rem; }
+    .social-avatar {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .social-name { font-size: 0.85rem; font-weight: 600; }
+    .social-time { font-size: 0.72rem; color: rgba(198,205,218,.60); margin-left: auto; }
+    .social-body { font-size: 0.82rem; color: rgba(198,205,218,.78); line-height: 1.5; }
+    .social-actions { display: flex; gap: 1rem; margin-top: 0.6rem; }
+    .social-action { font-size: 0.75rem; color: rgba(198,205,218,.60); display: flex; align-items: center; gap: 0.3rem; }
+
+    /* MediNest */
+    .medinest-section {
+      background: linear-gradient(180deg, #edf9f6 0%, #eff9f6 100%);
+      position: relative; overflow: hidden;
+    }
+    .medinest-section::before {
+      content: '';
+      position: absolute; top: -150px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(0,229,160,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .product-tag-mn { background: rgba(0,229,160,0.1); color: var(--mn-green); border: 1px solid rgba(0,229,160,0.2); }
+    .product-title-mn span {
+      background: linear-gradient(135deg, var(--mn-green), var(--mn-blue));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .feature-item-mn {
+      background: rgba(0,229,160,0.04);
+      border: 1px solid rgba(0,229,160,0.08);
+    }
+    .feature-item-mn:hover { background: rgba(0,229,160,0.1); border-color: rgba(0,229,160,0.2); }
+
+    .modules-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-top: 1rem; }
+    .module-chip {
+      padding: 0.6rem 0.75rem;
+      border-radius: var(--radius-sm);
+      background: rgba(0,229,160,0.06);
+      border: 1px solid rgba(0,229,160,0.1);
+      font-size: 0.78rem; color: rgba(198,205,218,.80);
+      transition: all 0.2s;
+    }
+    .module-chip:hover { background: rgba(0,229,160,0.14); border-color: rgba(0,229,160,0.25); color: var(--mn-green); }
+    .module-chip span { display: block; font-weight: 600; font-size: 0.82rem; }
+
+    /* Hub section */
+    .hub-section {
+      background: linear-gradient(180deg, #fafbfd 0%, #f3f5f9 100%);
+      position: relative; overflow: hidden;
+    }
+    .hub-section::before {
+      content: '';
+      position: absolute;
+      top: -200px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 500px;
+      background: radial-gradient(ellipse, rgba(245,200,66,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .product-tag-hub { background: rgba(245,200,66,0.1); color: var(--gold); border: 1px solid rgba(245,200,66,0.2); }
+    .product-title-hub span {
+      background: linear-gradient(135deg, var(--gold), #ffab00);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .feature-item-hub {
+      background: rgba(245,200,66,0.04);
+      border: 1px solid rgba(245,200,66,0.08);
+    }
+    .feature-item-hub:hover { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.2); }
+
+    .routes-grid { display: grid; gap: 0.5rem; margin-top: 0.5rem; }
+    .route-item {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.9rem;
+      border-radius: var(--radius-sm);
+      background: rgba(245,200,66,0.05);
+      border: 1px solid rgba(245,200,66,0.1);
+      font-family: monospace; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .route-item:hover { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.25); }
+    .route-method {
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.7rem; font-weight: 700;
+      background: rgba(245,200,66,0.15); color: var(--gold);
+    }
+    .route-path { color: rgba(198,205,218,.84); }
+    .route-label { margin-left: auto; font-size: 0.72rem; color: rgba(198,205,218,.60); font-family: 'Inter', sans-serif; }
+
+    /* ─── Tech Stack Section ─── */
+    .techstack-section { background: #ffffff; }
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem; margin-top: 3rem;
+    }
+    .stack-card {
+      padding: 1.4rem 1rem;
+      border-radius: var(--radius);
+      background: rgba(15,23,42,0.03);
+      border: 1px solid rgba(15,23,42,0.07);
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+    }
+    .stack-card:hover { transform: translateY(-6px); background: rgba(15,23,42,0.06); border-color: rgba(198,205,218,.38); }
+    .stack-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+    .stack-name { font-size: 0.85rem; font-weight: 600; }
+    .stack-sub { font-size: 0.72rem; color: rgba(198,205,218,.60); margin-top: 0.2rem; }
+
+    /* ─── About Section ─── */
+    .about-section {
+      background: linear-gradient(180deg, #fbfcfe 0%, #ffffff 100%);
+      position: relative; overflow: hidden;
+    }
+    .about-section::before {
+      content: '';
+      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 900px; height: 400px;
+      background: radial-gradient(ellipse, rgba(245,200,66,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .about-hero {
+      text-align: center;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid rgba(15,23,42,0.06);
+      margin-bottom: 4rem;
+    }
+    .about-avatar-wrap {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+    .about-avatar-ring {
+      position: absolute; inset: -6px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, var(--gold), #ffab00, var(--nx-purple));
+      animation: spin-ring 6s linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes spin-ring {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+    @keyframes avatar-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .about-avatar-wrap {
+      animation: avatar-float 4s ease-in-out infinite;
+    }
+    .about-avatar {
+      position: relative;
+      width: 100px; height: 100px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, var(--gold), #ffab00);
+      display: grid; place-items: center;
+      font-size: 2.4rem; font-weight: 800;
+      color: #0b1220;
+      box-shadow: 0 20px 50px rgba(245,200,66,0.3);
+    }
+    .about-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.6rem; font-weight: 800; letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #0f172a, rgba(15,23,42,0.6));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .about-role { font-size: 1rem; color: var(--gold); font-weight: 600; margin-top: 0.4rem; }
+    .about-bio { margin: 1rem auto 0; max-width: 620px; font-size: 0.95rem; line-height: 1.8; color: rgba(198,205,218,.74); }
+    .about-traits {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 0.6rem;
+      margin-top: 1.5rem;
+    }
+    .about-trait {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem; font-weight: 600;
+      background: rgba(245,200,66,0.08);
+      border: 1px solid rgba(245,200,66,0.18);
+      color: rgba(198,205,218,.84);
+      transition: all 0.2s;
+    }
+    .about-trait:hover { background: rgba(245,200,66,0.18); color: #f4ecdc; }
+    .about-links { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.8rem; }
+    .about-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.6rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600;
+      border: 1.5px solid rgba(245,200,66,0.25);
+      color: var(--gold);
+      transition: all 0.2s;
+    }
+    .about-link:hover { background: rgba(245,200,66,0.1); border-color: rgba(245,200,66,0.5); }
+    .about-link.primary {
+      background: linear-gradient(135deg, var(--gold), #ffab00);
+      color: #0b1220; border-color: transparent;
+      box-shadow: 0 8px 24px rgba(245,200,66,0.3);
+    }
+    .about-link.primary:hover { box-shadow: 0 14px 36px rgba(245,200,66,0.5); }
+
+    /* 3-col about body */
+    .about-body { display: grid; grid-template-columns: 1.1fr 0.9fr 1fr; gap: 2rem; align-items: start; }
+    .about-tag { background: rgba(245,200,66,0.1); color: var(--gold); border: 1px solid rgba(245,200,66,0.2); }
+    .about-card {
+      padding: 1.8rem;
+      border-radius: var(--radius);
+      background: rgba(15,23,42,0.03);
+      border: 1px solid rgba(15,23,42,0.07);
+    }
+    .about-card-title {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(198,205,218,.60);
+      margin-bottom: 1.2rem;
+    }
+    .about-facts { display: grid; gap: 0.7rem; }
+    .about-fact {
+      display: flex; align-items: flex-start; gap: 0.7rem;
+      font-size: 0.88rem; color: rgba(198,205,218,.80);
+      padding: 0.65rem 0.8rem;
+      border-radius: var(--radius-sm);
+      background: rgba(15,23,42,0.025);
+      border: 1px solid rgba(15,23,42,0.05);
+      transition: border-color 0.2s;
+    }
+    .about-fact:hover { border-color: rgba(245,200,66,0.2); }
+    .about-fact-icon { font-size: 1rem; flex-shrink: 0; }
+    .about-fact strong { display: block; font-size: 0.78rem; color: rgba(198,205,218,.60); font-weight: 500; margin-bottom: 0.1rem; }
+
+    /* Skill bars */
+    .skill-bars { display: grid; gap: 0.9rem; }
+    .skill-bar-header { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+    .skill-bar-name { font-size: 0.85rem; font-weight: 600; }
+    .skill-bar-pct { font-size: 0.78rem; color: var(--gold); font-weight: 700; }
+    .skill-bar-track {
+      height: 6px; border-radius: 999px;
+      background: rgba(15,23,42,0.07);
+      overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%; border-radius: 999px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Timeline */
+    .timeline { display: grid; gap: 0; }
+    .timeline-item { display: flex; gap: 1.2rem; padding-bottom: 1.6rem; position: relative; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-left { display: flex; flex-direction: column; align-items: center; }
+    .timeline-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(245,200,66,0.5);
+      margin-top: 5px;
+    }
+    .timeline-dot.edu { background: var(--jd-cyan); box-shadow: 0 0 10px rgba(0,212,255,0.4); }
+    .timeline-dot.project { background: var(--mn-green); box-shadow: 0 0 10px rgba(0,229,160,0.4); }
+    .timeline-line {
+      width: 1.5px; flex: 1; min-height: 20px;
+      background: linear-gradient(to bottom, rgba(245,200,66,0.25), transparent);
+      margin-top: 6px;
+    }
+    .timeline-item:last-child .timeline-line { display: none; }
+    .timeline-content { flex: 1; }
+    .timeline-badge {
+      display: inline-block;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 0.35rem;
+    }
+    .badge-exp { background: rgba(245,200,66,0.12); color: var(--gold); }
+    .badge-edu { background: rgba(0,212,255,0.1); color: var(--jd-cyan); }
+    .badge-proj { background: rgba(0,229,160,0.1); color: var(--mn-green); }
+    .timeline-role { font-weight: 700; font-size: 0.95rem; color: #f4ecdc; }
+    .timeline-company { font-size: 0.85rem; color: rgba(198,205,218,.72); margin-top: 0.1rem; }
+    .timeline-period { font-size: 0.75rem; color: rgba(198,205,218,.55); margin-top: 0.1rem; }
+    .timeline-note { font-size: 0.82rem; color: rgba(198,205,218,.68); line-height: 1.55; margin-top: 0.5rem; }
+    .timeline-bullets { margin: 0.4rem 0 0; padding-left: 1.1rem; display: grid; gap: 0.2rem; }
+    .timeline-bullets li { font-size: 0.8rem; color: rgba(198,205,218,.68); line-height: 1.5; }
+
+    @media (max-width: 1100px) { .about-body { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 720px) { .about-body { grid-template-columns: 1fr; } }
+
+    /* ─── Footer ─── */
+    .footer {
+      background: #f6f8fa;
+      border-top: 1px solid rgba(15,23,42,0.06);
+      padding: 3.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+    .footer-brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), #ffab00);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-top: 0.8rem;
+    }
+    .footer-brand-desc { font-size: 0.85rem; color: rgba(198,205,218,.64); line-height: 1.65; margin-top: 0.6rem; }
+    .footer-col-title { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(198,205,218,.68); margin-bottom: 1rem; }
+    .footer-links { display: grid; gap: 0.55rem; }
+    .footer-links a { font-size: 0.88rem; color: rgba(198,205,218,.72); transition: color 0.2s; }
+    .footer-links a:hover { color: #f4ecdc; }
+    .footer-bottom {
+      max-width: 1200px; margin: 2.5rem auto 0;
+      padding-top: 1.8rem;
+      border-top: 1px solid rgba(15,23,42,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: 0.82rem; color: rgba(198,205,218,.55);
+    }
+    .footer-bottom a { color: var(--gold); transition: opacity 0.2s; }
+    .footer-bottom a:hover { opacity: 0.7; }
+
+    /* ─── Typewriter ─── */
+    .typewriter { border-right: 3px solid var(--gold); padding-right: 4px; animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%, 100% { border-color: var(--gold); } 50% { border-color: transparent; } }
+
+    /* ─── Counter ─── */
+    .counter-val { display: inline-block; }
+
+    /* ─── Divider ─── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(15,23,42,0.06), transparent);
+    }
+
+    /* ─── Advanced Animations ─── */
+    .nav { transition: all 0.35s cubic-bezier(0.34, 1.2, 0.64, 1); }
+
+    .eco-card {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease !important;
+    }
+
+    .product-card-mock {
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+    .product-card-mock:hover {
+      box-shadow: 0 30px 80px rgba(0,0,0,.5);
+    }
+
+    .btn {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+
+    .feature-item {
+      transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+    .feature-item:hover {
+      transform: translateX(6px) !important;
+    }
+
+    .mock-bar-v {
+      transition: height 0.8s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+
+    .module-chip {
+      transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+    .module-chip:hover {
+      transform: translateY(-3px) scale(1.05);
+    }
+
+    .stack-card {
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    .stack-card:hover {
+      transform: translateY(-8px) scale(1.05) !important;
+      box-shadow: 0 20px 40px rgba(0,0,0,.3) !important;
+    }
+
+    .route-item {
+      transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+    .route-item:hover {
+      transform: translateX(6px) !important;
+    }
+
+    .about-trait {
+      transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+    .about-trait:hover {
+      transform: translateY(-3px) scale(1.06) !important;
+    }
+
+    .about-link {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+    .about-link:hover {
+      transform: translateY(-3px) !important;
+    }
+
+    .about-fact {
+      transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+    .about-fact:hover {
+      transform: translateX(5px) !important;
+    }
+
+    .skill-bar-fill {
+      transition: width 1.4s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+
+    .social-post {
+      transition: all 0.3s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+    .social-post:hover {
+      transform: translateX(6px) scale(1.02) !important;
+      box-shadow: 0 8px 24px rgba(99,102,241,0.15) !important;
+    }
+    .social-post:nth-child(1) { animation: social-slide-in 0.5s ease 0.2s both; }
+    .social-post:nth-child(2) { animation: social-slide-in 0.5s ease 0.4s both; }
+    .social-post:nth-child(3) { animation: social-slide-in 0.5s ease 0.6s both; }
+    @keyframes social-slide-in {
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .tech-chip {
+      transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) !important;
+    }
+    .tech-chip:hover {
+      transform: translateY(-2px) scale(1.08) !important;
+    }
+
+    .timeline-item {
+      transition: all 0.3s ease;
+    }
+    .timeline-item:hover {
+      transform: translateX(4px);
+    }
+
+    .footer-links a {
+      transition: all 0.2s ease !important;
+    }
+    .footer-links a:hover {
+      transform: translateX(4px);
+      display: inline-block;
+    }
+
+    /* Smooth page load */
+    body {
+      animation: pageLoad 0.6s ease both;
+    }
+    @keyframes pageLoad {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 1024px) {
+      .product-layout { grid-template-columns: 1fr; gap: 3rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 0 1.2rem; }
+      .nav-links { display: none; }
+      .section { padding: 4rem 1.2rem; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .modules-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 540px) {
+      .hero-stats { gap: 1.5rem; }
+      .ecosystem-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Card depth (surface colour comes from the night palette below) ─── */
+    .eco-card, .stack-card, .about-card {
+      box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.35);
+    }
+    .product-card-mock {
+      box-shadow: 0 1px 3px rgba(0,0,0,.45), 0 18px 50px rgba(0,0,0,.45);
+    }
+
+    /* ════════════════════════════════════════
+       SPACE THEME · navy + gold, dusk → midnight
+    ════════════════════════════════════════ */
+    html, body { background: transparent !important; }
+    .hero, .section, .ecosystem-section, .jobdesk-section, .nexora-section,
+    .medinest-section, .hub-section, .techstack-section, .about-section, .footer {
+      background: transparent !important;
+    }
+    #particle-canvas, .hero-glow { display: none !important; }
+
+    /* ════════ SPACE THEME · dusk → midnight, driven by scroll (--sp) ════════ */
+    #space-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    .sky {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 90% 65% at 50% 42%, rgba(74,94,128,.55) 0%, rgba(74,94,128,0) 72%),
+        linear-gradient(180deg, #1d2738 0%, #253046 38%, #2d3a52 70%, #35435e 100%);
+    }
+    .sky-deep {
+      position: absolute; inset: 0;
+      opacity: var(--sp);
+      background:
+        radial-gradient(ellipse 90% 65% at 50% 42%, rgba(40,52,72,.5) 0%, rgba(40,52,72,0) 72%),
+        linear-gradient(180deg, #080b12 0%, #0d121c 38%, #121826 70%, #171f30 100%);
+    }
+    .horizon-glow {
+      position: absolute; inset: 0;
+      opacity: calc(1 - var(--sp));
+      background:
+        radial-gradient(ellipse 75% 42% at 50% 4%, rgba(232,200,125,.20), transparent 66%),
+        radial-gradient(ellipse 55% 30% at 78% 0%, rgba(214,138,96,.14), transparent 70%);
+    }
+    .nebula {
+      position: absolute; inset: -12%;
+      opacity: calc(.45 + .55 * var(--sp));
+      filter: blur(34px);
+      background:
+        radial-gradient(ellipse 42% 30% at 20% 30%, rgba(96,126,186,.20), transparent 70%),
+        radial-gradient(ellipse 36% 28% at 78% 66%, rgba(150,126,196,.15), transparent 70%),
+        radial-gradient(ellipse 32% 24% at 56% 14%, rgba(232,200,125,.10), transparent 70%);
+      animation: nebula-drift 44s ease-in-out infinite alternate;
+    }
+    @keyframes nebula-drift {
+      from { transform: translate3d(-2%, -1%, 0) scale(1); }
+      to   { transform: translate3d(2%, 1%, 0) scale(1.09); }
+    }
+
+    /* ── Stars: sparse at dusk, full by midnight ── */
+    .stars { position: absolute; inset: 0; opacity: calc(.32 + .68 * var(--sp)); }
+    .star {
+      position: absolute; background: #fff; border-radius: 50%;
+      animation: twinkle var(--tw,3s) ease-in-out infinite; animation-delay: var(--dl,0s);
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: .25; transform: scale(.7); }
+      50%     { opacity: 1;   transform: scale(1.25); }
+    }
+    .shooting-star {
+      position: absolute; top: 14%; left: 60%;
+      width: 140px; height: 2px; border-radius: 2px;
+      background: linear-gradient(90deg, rgba(255,255,255,0), #fff);
+      opacity: 0; transform: rotate(18deg);
+      animation: shoot 9s ease-in infinite;
+    }
+    @keyframes shoot {
+      0%   { opacity: 0; transform: translate(0,0) rotate(18deg) scaleX(.2); }
+      6%   { opacity: 1; }
+      16%  { opacity: 0; transform: translate(-440px, 150px) rotate(18deg) scaleX(1); }
+      100% { opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nebula, .star, .shooting-star { animation: none !important; }
+    }
+
+    /* ════════ Content palette — navy + gold ════════ */
+    body { color: #c6cdda; }
+    .nav { background: rgba(16,21,31,.66) !important; border-bottom-color: rgba(232,200,125,.12); }
+    .nav-brand { color: #f4ecdc; }
+    .nav-links a { color: rgba(198,205,218,.80); }
+    .nav-links a:hover { color: #fff; background: rgba(232,200,125,.12); }
+
+    .eco-card, .stack-card, .about-card,
+    .product-card-mock, .feature-item, .feature-item-nx,
+    .feature-item-mn, .feature-item-hub, .module-chip,
+    .route-item, .about-fact, .social-post {
+      background: rgba(30,40,56,.58) !important; border-color: rgba(232,200,125,.16) !important;
+      -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    }
+
+    .section-title, .product-title-jd, .feature-text strong,
+    .timeline-role, .about-card-title, .stack-name,
+    .mock-stat-num, .mock-kpi-v, .nav-brand { color: #f4ecdc !important; }
+
+    .section-desc, .eco-desc, .feature-text,
+    .stack-sub, .about-bio, .timeline-note,
+    .timeline-company, .timeline-period, .footer-brand-desc,
+    .footer-links a, .route-path, .route-label,
+    .mock-title, .mock-stat-label, .mock-kpi-l,
+    .hero-sub, .about-fact { color: rgba(198,205,218,.78) !important; }
+
+    /* inline-styled text → light */
+    [style*="color:#0f172a"] { color: #f4ecdc !important; }
+    [style*="rgba(15,23,42,0.7)"], [style*="rgba(15,23,42,0.65)"] { color: rgba(198,205,218,.86) !important; }
+    [style*="rgba(15,23,42,0.6)"], [style*="rgba(15,23,42,0.55)"] { color: rgba(198,205,218,.80) !important; }
+    [style*="rgba(15,23,42,0.5)"], [style*="rgba(15,23,42,0.45)"] { color: rgba(198,205,218,.70) !important; }
+    [style*="rgba(15,23,42,0.4)"], [style*="rgba(15,23,42,0.3)"] { color: rgba(198,205,218,.60) !important; }
+    #typewriter-line { -webkit-text-fill-color: rgba(198,205,218,.66) !important; color: rgba(198,205,218,.66) !important; }
+
+    .hero-stat-num { background: linear-gradient(135deg,#f4ecdc,#e8c87d); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .footer { border-top-color: rgba(232,200,125,.12); }
+    ::-webkit-scrollbar-track { background: #0d121c; }
+    .btn-outline { color: rgba(244,236,220,.88); border-color: rgba(255,255,255,.25); }
+    .btn-outline:hover { color: #fff; border-color: rgba(255,255,255,.5); background: rgba(255,255,255,.07); }
+    .tech-chip { background: rgba(255,255,255,.06); }
+    .mock-bar, .mock-bar-v { opacity: .9; }
+    .eco-link { filter: brightness(1.25); }
+  </style>
+</head>
+<body>
+<!-- ══ GOLD ICON SPRITE — line art, used via <svg class="ic"><use href="#ic-…"> ══ -->
+<svg class="ic-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="goldStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#fff4d0"/>
+      <stop offset="48%"  stop-color="#e8c87d"/>
+      <stop offset="100%" stop-color="#c9a24d"/>
+    </linearGradient>
+  </defs>
+  <symbol id="ic-mail" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3.2 6.6 12 13l8.8-6.4"/></symbol>
+  <symbol id="ic-code" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="13" rx="2"/><path d="M1.5 20.5h21"/><path d="M9.4 8.6 7 11l2.4 2.4M14.6 8.6 17 11l-2.4 2.4"/></symbol>
+  <symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 21.5s7-5.9 7-11.5a7 7 0 1 0-14 0c0 5.6 7 11.5 7 11.5Z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+  <symbol id="ic-cap" viewBox="0 0 24 24"><path d="M2.5 8.6 12 4.2l9.5 4.4L12 13 2.5 8.6Z"/><path d="M6.6 10.7v4.6c0 1.6 2.4 2.9 5.4 2.9s5.4-1.3 5.4-2.9v-4.6"/><path d="M21.5 8.6v5.2"/></symbol>
+  <symbol id="ic-star8" viewBox="0 0 24 24"><path d="M12 6c.5 4.3 1.4 5.2 5.7 5.7l1.9.3-1.9.3c-4.3.5-5.2 1.4-5.7 5.7l-.3 1.9-.3-1.9c-.5-4.3-1.4-5.2-5.7-5.7L3.8 12l1.9-.3C10 11.2 10.9 10.3 11.4 6Z"/><circle cx="12" cy="12" r="9.2" stroke-dasharray="0.1 2.6"/></symbol>
+  <symbol id="ic-atom" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.7"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></symbol>
+  <symbol id="ic-diamond" viewBox="0 0 24 24"><path d="M12 2.6 21.4 12 12 21.4 2.6 12Z"/><path d="M7.3 12 12 7.3l4.7 4.7L12 16.7Z"/></symbol>
+  <symbol id="ic-terminal" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M7 9.5 10 12l-3 2.5M12.8 15h4.4"/></symbol>
+  <symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13.6 2.5 5.2 13.4h5.6l-1.4 8.1 8.4-10.9h-5.6Z"/></symbol>
+  <symbol id="ic-cycle" viewBox="0 0 24 24"><path d="M3.6 12a8.4 8.4 0 0 1 14.3-6"/><path d="M20.4 12a8.4 8.4 0 0 1-14.3 6"/><path d="M18.4 2.2v4h-4M5.6 21.8v-4h4"/></symbol>
+  <symbol id="ic-docker" viewBox="0 0 24 24"><rect x="3.2" y="10.6" width="3.6" height="3.6"/><rect x="7.8" y="10.6" width="3.6" height="3.6"/><rect x="12.4" y="10.6" width="3.6" height="3.6"/><rect x="7.8" y="6.4" width="3.6" height="3.6"/><path d="M2.2 16.4c2.2 3.1 5.6 4.4 9.4 4.4 4.6 0 8.4-2.3 10.2-6.6-1.6-.7-3.3-.5-4.6.4"/></symbol>
+  <symbol id="ic-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11.5" rx="3"/><circle cx="9.2" cy="13.4" r="1.4"/><circle cx="14.8" cy="13.4" r="1.4"/><path d="M12 8V4.4M9.6 3.2h4.8M2.4 12.4v3.2M21.6 12.4v3.2"/></symbol>
+  <symbol id="ic-ruler" viewBox="0 0 24 24"><path d="M3.5 20.5h17L3.5 3.5Z"/><path d="M7.6 20.5v-2.8M11.2 20.5v-4.6M14.8 20.5v-2.4"/></symbol>
+  <symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4"/><ellipse cx="12" cy="12" rx="4.1" ry="9.2"/></symbol>
+  <symbol id="ic-scale" viewBox="0 0 24 24"><path d="M12 3.4v17.2M7.2 20.6h9.6"/><path d="M12 6.4 4.8 8.8M12 6.4l7.2 2.4"/><path d="M2.4 14.2a2.4 2.4 0 0 0 4.8 0L4.8 8.8Z"/><path d="M16.8 14.2a2.4 2.4 0 0 0 4.8 0L19.2 8.8Z"/></symbol>
+  <symbol id="ic-hospital" viewBox="0 0 24 24"><rect x="3.5" y="7.4" width="17" height="13.2" rx="2"/><path d="M7.4 7.4V4.4h9.2v3"/><path d="M12 10.8v6.4M8.8 14h6.4"/></symbol>
+  <symbol id="ic-brain" viewBox="0 0 24 24"><path d="M12 5.4a3 3 0 0 0-5.6-1.5A2.9 2.9 0 0 0 3.4 8.8a3 3 0 0 0 .8 4.4 3 3 0 0 0 2.9 5.1 3 3 0 0 0 4.9 1.2Z"/><path d="M12 5.4a3 3 0 0 1 5.6-1.5 2.9 2.9 0 0 1 3 4.9 3 3 0 0 1-.8 4.4 3 3 0 0 1-2.9 5.1 3 3 0 0 1-4.9 1.2Z"/><path d="M12 5.4v14.1"/></symbol>
+  <symbol id="ic-pill" viewBox="0 0 24 24"><rect x="2.6" y="8.6" width="18.8" height="6.8" rx="3.4" transform="rotate(-45 12 12)"/><path d="M8.6 8.6 15.4 15.4"/></symbol>
+  <symbol id="ic-briefcase" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8.6 7V5.6A1.6 1.6 0 0 1 10.2 4h3.6a1.6 1.6 0 0 1 1.6 1.6V7"/><path d="M2.5 12.4h19"/></symbol>
+  <symbol id="ic-chart" viewBox="0 0 24 24"><path d="M3.5 20.5h17"/><rect x="5.4" y="10.6" width="3.4" height="7.4"/><rect x="10.3" y="6.2" width="3.4" height="11.8"/><rect x="15.2" y="13.4" width="3.4" height="4.6"/></symbol>
+  <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 6.6A1.6 1.6 0 0 1 4.6 5h4.2l2.2 2.6h8.4A1.6 1.6 0 0 1 21 9.2v8.8a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 18Z"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.4" r="3.3"/><path d="M2.8 19.6a6.2 6.2 0 0 1 12.4 0"/><path d="M16.4 5.4a3.3 3.3 0 0 1 0 6M17.6 14a6.2 6.2 0 0 1 3.6 5.6"/></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="4.4" y="10.4" width="15.2" height="9.6" rx="2"/><path d="M7.8 10.4V7.6a4.2 4.2 0 0 1 8.4 0v2.8"/><circle cx="12" cy="15.2" r="1.3"/></symbol>
+  <symbol id="ic-map" viewBox="0 0 24 24"><path d="M2.8 6.6 9 4.2v13.2l-6.2 2.4Z"/><path d="M9 4.2 15 6.6v13.2L9 17.4Z"/><path d="M15 6.6l6.2-2.4v13.2L15 19.8Z"/></symbol>
+  <symbol id="ic-crown" viewBox="0 0 24 24"><path d="M2.6 7.4 6.4 11.8 12 5l5.6 6.8 3.8-4.4-1.6 11.2H4.2Z"/><path d="M4.6 20.6h14.8"/></symbol>
+  <symbol id="ic-shuffle" viewBox="0 0 24 24"><path d="M2.8 7h3.4c4 0 5.6 10 9.6 10h5.4M2.8 17h3.4c1.7 0 2.9-1.8 3.9-4M14.6 9.6c1-1.7 2.2-2.6 3.8-2.6h3.4"/><path d="M18.4 4 21.6 7l-3.2 3M18.4 14l3.2 3-3.2 3"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2.8 20 6v6.1c0 4.4-3.2 8.3-8 9.6-4.8-1.3-8-5.2-8-9.6V6Z"/><path d="M8.8 11.8 11 14l4.2-4.2"/></symbol>
+  <symbol id="ic-signal" viewBox="0 0 24 24"><path d="M8.4 8.4a5 5 0 0 1 7.2 0M5.2 5.2a9.5 9.5 0 0 1 13.6 0"/><circle cx="12" cy="14.6" r="2.1"/><path d="M12 16.8v4.4"/></symbol>
+  <symbol id="ic-flag" viewBox="0 0 24 24"><path d="M5.2 21.5V3.2"/><path d="M5.2 4.4h11.6l-2.2 3.7 2.2 3.7H5.2Z"/></symbol>
+  <symbol id="ic-rocket" viewBox="0 0 24 24"><path d="M12 2.4c2.9 2.6 4.7 6.3 4.7 10.4l-1.9 4.2H9.2l-1.9-4.2C7.3 8.7 9.1 5 12 2.4Z"/><circle cx="12" cy="9.6" r="1.7"/><path d="M9.3 13.8 6.3 16.2v3.5l3-2.1M14.7 13.8l3 2.4v3.5l-3-2.1"/><path d="M10.7 19.2 12 21.6l1.3-2.4"/></symbol>
+  <symbol id="ic-party" viewBox="0 0 24 24"><path d="M3 21.2 7.6 8.6l7.8 7.8Z"/><path d="M14.6 4v2.4M19.6 8.2h2.2M17.6 5.4l1.6-1.6M14.8 11.4c1.6-1.6 4-1.6 5.6 0"/></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24"><path d="M12 20.8S3.4 15.6 3.4 9.6a4.6 4.6 0 0 1 8.6-2.4 4.6 4.6 0 0 1 8.6 2.4c0 6-8.6 11.2-8.6 11.2Z"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20.6 12.2a7.6 7.6 0 0 1-10.8 6.9l-5.4 1.6 1.7-5.2A7.6 7.6 0 1 1 20.6 12.2Z"/></symbol>
+  <symbol id="ic-fire" viewBox="0 0 24 24"><path d="M12 21.4c3.6 0 6.4-2.7 6.4-6 0-4.6-4-6.2-4.6-10.4-2 1.6-3.2 4-3.2 6.2 0 1.2-1.2 1.6-1.8.6-.4-.8-.6-1.8-.5-2.8-1.8 1.9-3.3 4.2-3.3 6.4 0 3.3 2.9 6 7 6Z"/></symbol>
+  <symbol id="ic-dna" viewBox="0 0 24 24"><path d="M7.4 3c0 5.4 9.2 5.4 9.2 9s-9.2 3.6-9.2 9"/><path d="M16.6 3c0 5.4-9.2 5.4-9.2 9s9.2 3.6 9.2 9"/><path d="M8.8 6.4h6.4M8.8 17.6h6.4M7.6 9.6h8.8M7.6 14.4h8.8"/></symbol>
+  <symbol id="ic-clipboard" viewBox="0 0 24 24"><path d="M8.6 4.4H6.4a1.8 1.8 0 0 0-1.8 1.8v13.2a1.8 1.8 0 0 0 1.8 1.8h11.2a1.8 1.8 0 0 0 1.8-1.8V6.2a1.8 1.8 0 0 0-1.8-1.8h-2.2"/><rect x="8.6" y="2.4" width="6.8" height="4" rx="1.2"/><path d="M8.6 11.4h6.8M8.6 15.2h4.4"/></symbol>
+  <symbol id="ic-microscope" viewBox="0 0 24 24"><circle cx="10.4" cy="10.4" r="6.6"/><path d="M15.2 15.2 20.9 20.9"/><path d="M10.4 7.6v5.6M7.6 10.4h5.6"/></symbol>
+  <symbol id="ic-stethoscope" viewBox="0 0 24 24"><path d="M5.4 3v5.2a4.2 4.2 0 0 0 8.4 0V3"/><path d="M3.8 3h3.2M12.2 3h3.2"/><path d="M9.6 12.4v2a5.2 5.2 0 0 0 5.2 5.2 3.4 3.4 0 0 0 3.4-3.4v-1.8"/><circle cx="18.2" cy="12.4" r="2.1"/></symbol>
+  <symbol id="ic-doc" viewBox="0 0 24 24"><path d="M6.2 2.6h7l4.6 4.6v14.2H6.2Z"/><path d="M13.2 2.6v4.6h4.6"/><path d="M9 12.4h6M9 16h6"/></symbol>
+  <symbol id="ic-wellness" viewBox="0 0 24 24"><circle cx="12" cy="4.6" r="2.2"/><path d="M12 7.4v6.2"/><path d="M12 13.6 7.4 20.8M12 13.6l4.6 7.2"/><path d="M5.8 10.6h12.4"/></symbol>
+  <symbol id="ic-flask" viewBox="0 0 24 24"><path d="M9.6 2.8v6.4L4.4 18.6A1.6 1.6 0 0 0 5.8 21h12.4a1.6 1.6 0 0 0 1.4-2.4l-5.2-9.4V2.8"/><path d="M8 2.8h8"/><path d="M7.4 14.6h9.2"/></symbol>
+  <symbol id="ic-palette" viewBox="0 0 24 24"><path d="M12 2.8a9.2 9.2 0 0 0 0 18.4 1.9 1.9 0 0 0 1.9-1.9c0-.5-.2-.9-.5-1.2a1.8 1.8 0 0 1 1.3-3.1h2.2A4.4 4.4 0 0 0 21.2 10.6C21.2 6.3 17 2.8 12 2.8Z"/><circle cx="7.4" cy="10.6" r="1.1"/><circle cx="12" cy="7.4" r="1.1"/><circle cx="16.6" cy="10.6" r="1.1"/></symbol>
+  <symbol id="ic-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5.8" rx="8" ry="3.2"/><path d="M4 5.8v12.4c0 1.8 3.6 3.2 8 3.2s8-1.4 8-3.2V5.8"/><path d="M4 12c0 1.8 3.6 3.2 8 3.2s8-1.4 8-3.2"/></symbol>
+  <symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M20.4 5.6a5.6 5.6 0 0 1-7.4 5.3l-7 7a2.4 2.4 0 0 1-3.4-3.4l7-7a5.6 5.6 0 0 1 6.1-7.4l-3.2 3.2 2.5 2.5 3.2-3.2c.8 1.1 1.2 2.4 1.2 3.8Z"/></symbol>
+  <symbol id="ic-school" viewBox="0 0 24 24"><path d="M2.8 20.8h18.4"/><path d="M4.6 20.8V9.6L12 5.2l7.4 4.4v11.2"/><path d="M9.6 20.8v-5.6h4.8v5.6"/><path d="M12 2.6v2.6"/></symbol>
+  <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.2"/><circle cx="12" cy="12" r="1.6"/></symbol>
+  <symbol id="ic-build" viewBox="0 0 24 24"><path d="M12 2.8 21.2 7.4 12 12 2.8 7.4Z"/><path d="M2.8 12 12 16.6 21.2 12"/><path d="M2.8 16.6 12 21.2l9.2-4.6"/></symbol>
+</svg>
+
+<!-- ─── Space background (day / night) ─── -->
+<div id="space-bg" aria-hidden="true">
+  <div class="sky"></div>
+  <div class="sky-deep"></div>
+  <div class="horizon-glow"></div>
+  <div class="nebula"></div>
+  <div class="stars" id="stars"></div>
+  <div class="shooting-star"></div>
+</div>
+
+<!-- ─── Navigation ─── -->
+<nav class="nav">
+  <a href="#hero" class="nav-brand">
+    <div class="nav-crown"><svg class="ic"><use href="#ic-crown"/></svg></div>
+    <span>CrownDesk</span>
+  </a>
+  <div class="nav-links">
+    <a href="#ecosystem">Ecosystem</a>
+    <a href="#jobdesk">JobDesk</a>
+    <a href="#nexora">Nexora</a>
+    <a href="#medinest">MediNest</a>
+    <a href="#hub">Hub</a>
+    <a href="#stack">Stack</a>
+    <a href="#about">About</a>
+    <a href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener" class="nav-live"><svg class="ic"><use href="#ic-code"/></svg> GitHub</a>
+  </div>
+</nav>
+
+<!-- ─── Hero ─── -->
+<section class="hero" id="hero">
+  <canvas id="particle-canvas"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span><svg class="ic"><use href="#ic-crown"/></svg></span>
+      <span>Full-Stack Product Ecosystem</span>
+    </div>
+    <h1 class="hero-title">
+      <span class="crown-word">Crown</span>Desk<br>
+      <span style="font-size:0.55em; color:rgba(15,23,42,0.5); font-weight:400; -webkit-text-fill-color:rgba(15,23,42,0.5);" id="typewriter-line"></span>
+    </h1>
+    <p class="hero-sub">
+      A unified ecosystem of four production-ready web applications built for real users — career seekers, social networkers, medical students, and enterprise operators.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="btn btn-gold"><svg class="ic"><use href="#ic-globe"/></svg> CrownDesk Hub on GitHub</a>
+      <a href="#ecosystem" class="btn btn-outline">Explore Products ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span class="counter-val" data-target="4">4</span></div>
+        <div class="hero-stat-label">Interconnected Apps</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span class="counter-val" data-target="15">15</span>+</div>
+        <div class="hero-stat-label">MediNest AI Modules</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span class="counter-val" data-target="50">50</span>+</div>
+        <div class="hero-stat-label">Features Built</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span class="counter-val" data-target="1">1</span></div>
+        <div class="hero-stat-label">Live Domain</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- ─── Ecosystem Overview ─── -->
+<section class="section ecosystem-section" id="ecosystem">
+  <div class="section-inner">
+    <div class="reveal">
+      <span class="section-tag" style="background:rgba(245,200,66,0.1);color:var(--gold);border:1px solid rgba(245,200,66,0.2);">Ecosystem</span>
+      <h2 class="section-title">Four apps. One kingdom.</h2>
+      <p class="section-desc">Each product serves a distinct user need while sharing a unified authentication gateway and ecosystem proxy behind a single domain.</p>
+    </div>
+    <div class="ecosystem-grid">
+      <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="eco-card hub reveal delay-1">
+        <div class="eco-icon"><svg class="ic"><use href="#ic-crown"/></svg></div>
+        <div class="eco-name">CrownDesk Hub</div>
+        <div class="eco-desc">The public-facing gateway and super-admin portal that proxies traffic to all sub-products under one domain.</div>
+        <div class="eco-link">View on GitHub →</div>
+      </a>
+      <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="eco-card jobdesk reveal delay-2">
+        <div class="eco-icon"><svg class="ic"><use href="#ic-briefcase"/></svg></div>
+        <div class="eco-name">JobDesk</div>
+        <div class="eco-desc">Career intelligence platform for students in Germany. Track applications, get AI recommendations, and analyse your job search.</div>
+        <div class="eco-link">JobDesk on GitHub →</div>
+      </a>
+      <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="eco-card nexora reveal delay-3">
+        <div class="eco-icon"><svg class="ic"><use href="#ic-globe"/></svg></div>
+        <div class="eco-name">Nexora</div>
+        <div class="eco-desc">Social networking platform with communities, events, stories, direct messaging, OAuth login, and AI-powered assistant.</div>
+        <div class="eco-link">Nexora on GitHub →</div>
+      </a>
+      <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="eco-card medinest reveal delay-4">
+        <div class="eco-icon"><svg class="ic"><use href="#ic-hospital"/></svg></div>
+        <div class="eco-name">MediNest</div>
+        <div class="eco-desc">AI-powered universal medical platform with 15 modules — clinical simulators, drug checker, anatomy explorer, and Claude AI assistant.</div>
+        <div class="eco-link">MediNest on GitHub →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─── JobDesk Section ─── -->
+<section class="section jobdesk-section" id="jobdesk">
+  <div class="section-inner">
+    <div class="product-layout">
+      <div class="reveal-left">
+        <span class="section-tag product-tag"><svg class="ic"><use href="#ic-briefcase"/></svg> JobDesk</span>
+        <h2 class="section-title product-title-jd"><span>Career Intelligence</span><br>for Students in Germany</h2>
+        <p class="section-desc">A full-stack job tracking and analytics platform built specifically for international students navigating German visa limits, dual-language applications, and multiple job portals.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-dot dot-jd"></div>
+            <div class="feature-text"><strong>16-KPI Analytics Dashboard</strong> — 10 interactive Chart.js charts with real-time career scoring (0–100).</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot dot-jd"></div>
+            <div class="feature-text"><strong>Smart Recommendation Engine</strong> — 9 rule-based suggestions tailored to your actual application data.</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot dot-jd"></div>
+            <div class="feature-text"><strong>Email Template Generator</strong> — 5 email types in 3 tones (Formal, Friendly, Short).</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-dot dot-jd"></div>
+            <div class="feature-text"><strong>Full CRUD Tracker</strong> — 25+ fields per application with CSV import/export and document tracker.</div>
+          </div>
+        </div>
+        <div class="tech-chips">
+          <span class="tech-chip chip-jd">Python Flask</span>
+          <span class="tech-chip chip-jd">SQLAlchemy</span>
+          <span class="tech-chip chip-jd">Chart.js</span>
+          <span class="tech-chip chip-jd">Bootstrap 5</span>
+          <span class="tech-chip chip-jd">Pandas</span>
+          <span class="tech-chip chip-jd">SQLite</span>
+          <span class="tech-chip chip-jd">Jinja2</span>
+        </div>
+        <div class="product-links">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="btn btn-jd"><svg class="ic"><use href="#ic-rocket"/></svg> JobDesk on GitHub</a>
+          <a href="#ecosystem" class="btn btn-outline">← Ecosystem</a>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="product-card-mock">
+          <div class="mock-header">
+            <div class="mock-dot" style="background:#ff5f57"></div>
+            <div class="mock-dot" style="background:#febc2e"></div>
+            <div class="mock-dot" style="background:#28c840"></div>
+            <span class="mock-title">JobDesk — Career Analytics</span>
+          </div>
+          <div class="mock-stat-row">
+            <div class="mock-stat" style="background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15)">
+              <div class="mock-stat-num" style="color:var(--jd-cyan)">24</div>
+              <div class="mock-stat-label">Applications</div>
+            </div>
+            <div class="mock-stat" style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.15)">
+              <div class="mock-stat-num" style="color:var(--mn-green)">78</div>
+              <div class="mock-stat-label">Career Score</div>
+            </div>
+            <div class="mock-stat" style="background:rgba(157,78,221,0.08);border:1px solid rgba(157,78,221,0.15)">
+              <div class="mock-stat-num" style="color:var(--nx-purple)">6</div>
+              <div class="mock-stat-label">Interviews</div>
+            </div>
+          </div>
+          <div class="mock-chart">
+            <div class="mock-bar-v" style="height:40%;background:rgba(0,212,255,0.3)"></div>
+            <div class="mock-bar-v" style="height:65%;background:rgba(0,212,255,0.5)"></div>
+            <div class="mock-bar-v" style="height:50%;background:rgba(0,212,255,0.35)"></div>
+            <div class="mock-bar-v" style="height:80%;background:var(--jd-cyan)"></div>
+            <div class="mock-bar-v" style="height:55%;background:rgba(0,212,255,0.45)"></div>
+            <div class="mock-bar-v" style="height:70%;background:rgba(0,212,255,0.55)"></div>
+            <div class="mock-bar-v" style="height:90%;background:var(--jd-cyan);box-shadow:0 0 12px var(--jd-cyan)"></div>
+          </div>
+          <div class="mock-kpi-grid">
+            <div class="mock-kpi">
+              <div class="mock-kpi-v" style="color:var(--jd-cyan)">LinkedIn</div>
+              <div class="mock-kpi-l">Top portal</div>
+            </div>
+            <div class="mock-kpi">
+              <div class="mock-kpi-v" style="color:var(--mn-green)">42%</div>
+              <div class="mock-kpi-l">Response rate</div>
+            </div>
+            <div class="mock-kpi">
+              <div class="mock-kpi-v" style="color:var(--gold)">EN/DE</div>
+              <div class="mock-kpi-l">Languages</div>
+            </div>
+            <div class="mock-kpi">
+              <div class="mock-kpi-v" style="color:var(--nx-purple)">120d</div>
+              <div class="mock-kpi-l">Visa tracker</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─── Nexora Section ─── -->
+<section class="section nexora-section" id="nexora">
+  <div class="section-inner">
+    <div class="product-layout" style="direction:rtl">
+      <div class="reveal-right" style="direction:ltr">
+        <span class="section-tag product-tag-nx"><svg class="ic"><use href="#ic-globe"/></svg> Nexora</span>
+        <h2 class="section-title"><span class="product-title-nx" style="color:#0f172a"><span>Student Community</span><br>Powered by AI</span></h2>
+        <p class="section-desc" style="color:rgba(15,23,42,0.6)">The social heart of CrownDesk — a networking platform built for international students in Germany. Find communities, attend events, get AI coaching, and connect with peers who understand your journey.</p>
+        <div class="feature-list">
+          <div class="feature-item feature-item-nx">
+            <div class="feature-dot dot-nx"></div>
+            <div class="feature-text"><strong>Community Discovery</strong> — Find and join communities by nationality, university, city, interests, and field of study.</div>
+          </div>
+          <div class="feature-item feature-item-nx">
+            <div class="feature-dot dot-nx"></div>
+            <div class="feature-text"><strong>Events & Meetups</strong> — Create and discover local events — study groups, cultural meetups, networking sessions.</div>
+          </div>
+          <div class="feature-item feature-item-nx">
+            <div class="feature-dot dot-nx"></div>
+            <div class="feature-text"><strong>Interactive Map</strong> — Visual map showing communities, events, and students near you across German cities.</div>
+          </div>
+          <div class="feature-item feature-item-nx">
+            <div class="feature-dot dot-nx"></div>
+            <div class="feature-text"><strong>Direct Messaging</strong> — Real-time private conversations and group discussions with other students.</div>
+          </div>
+          <div class="feature-item feature-item-nx">
+            <div class="feature-dot dot-nx"></div>
+            <div class="feature-text"><strong>AI Life Coach</strong> — Groq + Claude powered coaching for visa questions, culture shock, academic stress, and daily life.</div>
+          </div>
+          <div class="feature-item feature-item-nx">
+            <div class="feature-dot dot-nx"></div>
+            <div class="feature-text"><strong>Referral Programme</strong> — Invite friends and earn ambassador status with exclusive community features and rewards.</div>
+          </div>
+        </div>
+        <div class="tech-chips">
+          <span class="tech-chip chip-nx">Python Flask</span>
+          <span class="tech-chip chip-nx">SQLAlchemy</span>
+          <span class="tech-chip chip-nx">Anthropic Claude</span>
+          <span class="tech-chip chip-nx">Groq AI</span>
+          <span class="tech-chip chip-nx">Google OAuth</span>
+          <span class="tech-chip chip-nx">GitHub OAuth</span>
+          <span class="tech-chip chip-nx">SQLite</span>
+          <span class="tech-chip chip-nx">Geolocation</span>
+        </div>
+        <div class="product-links">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="btn btn-nx"><svg class="ic"><use href="#ic-rocket"/></svg> Nexora on GitHub</a>
+          <a href="#ecosystem" class="btn btn-outline">← Ecosystem</a>
+        </div>
+      </div>
+      <div class="reveal-left" style="direction:ltr">
+        <div class="product-card-mock" style="border-color:rgba(99,102,241,0.2)">
+          <div class="mock-header">
+            <div class="mock-dot" style="background:#ff5f57"></div>
+            <div class="mock-dot" style="background:#febc2e"></div>
+            <div class="mock-dot" style="background:#28c840"></div>
+            <span class="mock-title">Nexora — Social Feed</span>
+          </div>
+          <!-- Community stats bar -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-bottom:0.75rem">
+            <div style="padding:0.6rem;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.15);border-radius:10px;text-align:center">
+              <div style="font-size:1.1rem;font-weight:800;color:var(--nx-purple)">847</div>
+              <div style="font-size:0.65rem;color:rgba(15,23,42,0.4)">Students</div>
+            </div>
+            <div style="padding:0.6rem;background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.15);border-radius:10px;text-align:center">
+              <div style="font-size:1.1rem;font-weight:800;color:var(--nx-pink)">23</div>
+              <div style="font-size:0.65rem;color:rgba(15,23,42,0.4)">Communities</div>
+            </div>
+            <div style="padding:0.6rem;background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.15);border-radius:10px;text-align:center">
+              <div style="font-size:1.1rem;font-weight:800;color:var(--nx-blue)">12</div>
+              <div style="font-size:0.65rem;color:rgba(15,23,42,0.4)">Events</div>
+            </div>
+          </div>
+          <div class="social-mock">
+            <div class="social-post" style="background:rgba(99,102,241,0.06);border-color:rgba(99,102,241,0.12)">
+              <div class="social-post-header">
+                <div class="social-avatar" style="background:rgba(99,102,241,0.25);color:var(--nx-purple)">AK</div>
+                <div>
+                  <div class="social-name">Alex K.</div>
+                </div>
+                <div class="social-time">2m ago</div>
+              </div>
+              <div class="social-body">Just got an interview at BMW <svg class="ic"><use href="#ic-party"/></svg> JobDesk helped me track everything perfectly!</div>
+              <div class="social-actions">
+                <span class="social-action"><svg class="ic"><use href="#ic-heart"/></svg> 42</span>
+                <span class="social-action"><svg class="ic"><use href="#ic-chat"/></svg> 8</span>
+                <span class="social-action"><svg class="ic"><use href="#ic-cycle"/></svg> 3</span>
+              </div>
+            </div>
+            <div class="social-post" style="background:rgba(236,72,153,0.04);border-color:rgba(236,72,153,0.1)">
+              <div class="social-post-header">
+                <div class="social-avatar" style="background:rgba(236,72,153,0.2);color:var(--nx-pink)">MR</div>
+                <div>
+                  <div class="social-name">Maria R.</div>
+                </div>
+                <div class="social-time">15m ago</div>
+              </div>
+              <div class="social-body">The AI life coach on Nexora is <svg class="ic"><use href="#ic-fire"/></svg> — answered all my visa questions instantly. This is a game changer for us international students!</div>
+              <div class="social-actions">
+                <span class="social-action"><svg class="ic"><use href="#ic-heart"/></svg> 28</span>
+                <span class="social-action"><svg class="ic"><use href="#ic-chat"/></svg> 5</span>
+              </div>
+            </div>
+            <div class="social-post" style="background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.2)">
+              <div class="social-post-header">
+                <div class="social-avatar" style="background:linear-gradient(135deg,var(--gold),#ffab00);color:#0b1220">SN</div>
+                <div>
+                  <div class="social-name" style="color:var(--gold)">Shreyas N. <svg class="ic"><use href="#ic-crown"/></svg></div>
+                </div>
+                <div class="social-time">1h ago</div>
+              </div>
+              <div class="social-body">CrownDesk is live! 4 apps, 1 ecosystem, built from scratch in Munich <svg class="ic"><use href="#ic-rocket"/></svg></div>
+              <div class="social-actions">
+                <span class="social-action" style="color:var(--nx-purple)"><svg class="ic"><use href="#ic-heart"/></svg> 137</span>
+                <span class="social-action"><svg class="ic"><use href="#ic-chat"/></svg> 29</span>
+                <span class="social-action"><svg class="ic"><use href="#ic-cycle"/></svg> 14</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─── MediNest Section ─── -->
+<section class="section medinest-section" id="medinest">
+  <div class="section-inner">
+    <div class="product-layout">
+      <div class="reveal-left">
+        <span class="section-tag product-tag-mn"><svg class="ic"><use href="#ic-hospital"/></svg> MediNest</span>
+        <h2 class="section-title"><span style="color:#0f172a"><span class="product-title-mn" style="color:#0f172a"><span>AI-Powered Medical</span><br><span style="background:linear-gradient(135deg,var(--mn-green),var(--mn-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Platform</span></span></span></h2>
+        <p class="section-desc">Universal medical platform for students and professionals with 15 AI modules — built on FastAPI + Next.js with Claude AI, DeepL, PubMed, and 3D anatomy visualisation.</p>
+        <div class="feature-list">
+          <div class="feature-item feature-item-mn">
+            <div class="feature-dot dot-mn"></div>
+            <div class="feature-text"><strong>Crown Intelligence</strong> — Claude Sonnet AI medical assistant with clinical context.</div>
+          </div>
+          <div class="feature-item feature-item-mn">
+            <div class="feature-dot dot-mn"></div>
+            <div class="feature-text"><strong>Drug Interaction Checker</strong> — Cross-country drug name lookup with interaction analysis.</div>
+          </div>
+          <div class="feature-item feature-item-mn">
+            <div class="feature-dot dot-mn"></div>
+            <div class="feature-text"><strong>3D Anatomy Explorer</strong> — Three.js powered interactive anatomy visualisation.</div>
+          </div>
+          <div class="feature-item feature-item-mn">
+            <div class="feature-dot dot-mn"></div>
+            <div class="feature-text"><strong>Clinical Case Simulator</strong> — AI-generated patient cases with diagnostic scoring system.</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem">
+          <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.08em;color:rgba(15,23,42,0.4);text-transform:uppercase;margin-bottom:0.8rem">15 Modules</p>
+          <div class="modules-grid">
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-crown"/></svg></span> Crown AI</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-hospital"/></svg></span> Case Sim</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-pill"/></svg></span> Drug Check</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-globe"/></svg></span> Translator</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-dna"/></svg></span> History AI</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-brain"/></svg></span> Anatomy 3D</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-clipboard"/></svg></span> Rotation Log</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-microscope"/></svg></span> Diagnosis AI</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-stethoscope"/></svg></span> Symptom AI</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-doc"/></svg></span> Doc Vault</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-heart"/></svg></span> Health Track</div>
+            <div class="module-chip"><span><svg class="ic"><use href="#ic-wellness"/></svg></span> Mental Health</div>
+          </div>
+        </div>
+        <div class="tech-chips" style="margin-top:1.2rem">
+          <span class="tech-chip chip-mn">FastAPI</span>
+          <span class="tech-chip chip-mn">React · Next.js</span>
+          <span class="tech-chip chip-mn">TypeScript</span>
+          <span class="tech-chip chip-mn">Tailwind CSS</span>
+          <span class="tech-chip chip-mn">Claude AI</span>
+          <span class="tech-chip chip-mn">DeepL API</span>
+          <span class="tech-chip chip-mn">PubMed API</span>
+          <span class="tech-chip chip-mn">Three.js</span>
+          <span class="tech-chip chip-mn">PostgreSQL</span>
+        </div>
+        <div class="product-links">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="btn btn-mn"><svg class="ic"><use href="#ic-rocket"/></svg> MediNest on GitHub</a>
+          <a href="#ecosystem" class="btn btn-outline">← Ecosystem</a>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="product-card-mock" style="border-color:rgba(0,229,160,0.15)">
+          <div class="mock-header">
+            <div class="mock-dot" style="background:#ff5f57"></div>
+            <div class="mock-dot" style="background:#febc2e"></div>
+            <div class="mock-dot" style="background:#28c840"></div>
+            <span class="mock-title">MediNest — Crown AI</span>
+          </div>
+          <div style="padding:0.8rem;background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,0.1);border-radius:12px;margin-bottom:0.75rem">
+            <div style="font-size:0.75rem;color:var(--mn-green);font-weight:600;margin-bottom:0.5rem"><svg class="ic"><use href="#ic-stethoscope"/></svg> Patient Query</div>
+            <div style="font-size:0.82rem;color:rgba(15,23,42,0.7)">Patient presents with chest pain, 38°C fever, and SpO2 at 94%. Differential?</div>
+          </div>
+          <div style="padding:0.8rem;background:rgba(0,153,204,0.06);border:1px solid rgba(0,153,204,0.12);border-radius:12px">
+            <div style="font-size:0.75rem;color:var(--mn-blue);font-weight:600;margin-bottom:0.5rem"><svg class="ic"><use href="#ic-crown"/></svg> Crown Intelligence</div>
+            <div style="font-size:0.82rem;color:rgba(15,23,42,0.65);line-height:1.55">
+              <strong style="color:var(--mn-green)">Top differentials:</strong><br>
+              1. Pneumonia (fever + low SpO2 + chest pain)<br>
+              2. Pulmonary Embolism (PE)<br>
+              3. Pleuritis<br>
+              <em style="color:rgba(15,23,42,0.4);font-size:0.75rem">Recommend CXR, D-dimer, CBC, CRP →</em>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.75rem">
+            <div style="padding:0.6rem;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.1);border-radius:10px;text-align:center">
+              <div style="font-size:1rem;font-weight:700;color:var(--mn-green)">3D</div>
+              <div style="font-size:0.7rem;color:rgba(15,23,42,0.4)">Anatomy view</div>
+            </div>
+            <div style="padding:0.6rem;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.1);border-radius:10px;text-align:center">
+              <div style="font-size:1rem;font-weight:700;color:var(--mn-green)">PDF</div>
+              <div style="font-size:0.7rem;color:rgba(15,23,42,0.4)">Portfolio export</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─── Hub Section ─── -->
+<section class="section hub-section" id="hub">
+  <div class="section-inner">
+    <div class="product-layout" style="direction:rtl">
+      <div class="reveal-right" style="direction:ltr">
+        <span class="section-tag product-tag-hub"><svg class="ic"><use href="#ic-crown"/></svg> CrownDesk Hub</span>
+        <h2 class="section-title"><span style="color:#0f172a">The <span style="background:linear-gradient(135deg,var(--gold),#ffab00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Ecosystem Gateway</span></span></h2>
+        <p class="section-desc">The master hub that powers the entire ecosystem — a Flask proxy layer routing all traffic under one custom domain with a centralised super-admin panel.</p>
+        <div class="feature-list">
+          <div class="feature-item feature-item-hub">
+            <div class="feature-dot dot-hub"></div>
+            <div class="feature-text"><strong>Smart Reverse Proxy</strong> — Routes /jobdesk, /nexora, /medinest to internal services transparently.</div>
+          </div>
+          <div class="feature-item feature-item-hub">
+            <div class="feature-dot dot-hub"></div>
+            <div class="feature-text"><strong>Super-Admin Panel</strong> — Unified admin that manages all three sub-apps from one interface.</div>
+          </div>
+          <div class="feature-item feature-item-hub">
+            <div class="feature-dot dot-hub"></div>
+            <div class="feature-text"><strong>CSRF Protection</strong> — Ecosystem-wide CSRF middleware with per-service exemptions.</div>
+          </div>
+          <div class="feature-item feature-item-hub">
+            <div class="feature-dot dot-hub"></div>
+            <div class="feature-text"><strong>Free Beta Mode</strong> — Launch-safe posture with payment-disabled mode until full legal/tax setup.</div>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem">
+          <p style="font-size:0.8rem;font-weight:700;letter-spacing:0.08em;color:rgba(15,23,42,0.4);text-transform:uppercase;margin-bottom:0.8rem">Live Routes</p>
+          <div class="routes-grid">
+            <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="route-item" style="text-decoration:none">
+              <span class="route-method">GET</span>
+              <span class="route-path">crowndeskhub.com/</span>
+              <span class="route-label">Hub landing</span>
+            </a>
+            <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="route-item" style="text-decoration:none">
+              <span class="route-method">GET</span>
+              <span class="route-path">/jobdesk</span>
+              <span class="route-label">Career app</span>
+            </a>
+            <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="route-item" style="text-decoration:none">
+              <span class="route-method">GET</span>
+              <span class="route-path">/nexora</span>
+              <span class="route-label">Social app</span>
+            </a>
+            <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="route-item" style="text-decoration:none">
+              <span class="route-method">GET</span>
+              <span class="route-path">/medinest</span>
+              <span class="route-label">Medical app</span>
+            </a>
+            <div class="route-item" style="opacity:0.5">
+              <span class="route-method">GET</span>
+              <span class="route-path">/admin</span>
+              <span class="route-label">Super admin</span>
+            </div>
+          </div>
+        </div>
+        <div class="product-links">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="btn btn-hub"><svg class="ic"><use href="#ic-globe"/></svg> Hub on GitHub</a>
+          <a href="#ecosystem" class="btn btn-outline">← Ecosystem</a>
+        </div>
+      </div>
+      <div class="reveal-left" style="direction:ltr">
+        <div class="product-card-mock" style="border-color:rgba(245,200,66,0.15)">
+          <div class="mock-header">
+            <div class="mock-dot" style="background:#ff5f57"></div>
+            <div class="mock-dot" style="background:#febc2e"></div>
+            <div class="mock-dot" style="background:#28c840"></div>
+            <span class="mock-title">CrownDesk Hub</span>
+          </div>
+          <div style="text-align:center;padding:1.5rem 0">
+            <div style="font-size:3rem"><svg class="ic"><use href="#ic-crown"/></svg></div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--gold),#ffab00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:0.5rem">CrownDesk</div>
+            <div style="font-size:0.8rem;color:rgba(15,23,42,0.4);margin-top:0.3rem">Ecosystem Hub</div>
+          </div>
+          <div style="display:grid;gap:0.5rem">
+            <div style="display:flex;align-items:center;gap:0.75rem;padding:0.7rem;background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.12);border-radius:10px">
+              <span><svg class="ic"><use href="#ic-briefcase"/></svg></span>
+              <span style="font-size:0.85rem;font-weight:600;color:var(--jd-cyan)">JobDesk</span>
+              <span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:#28c840;box-shadow:0 0 6px #28c840"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;padding:0.7rem;background:rgba(157,78,221,0.06);border:1px solid rgba(157,78,221,0.12);border-radius:10px">
+              <span><svg class="ic"><use href="#ic-globe"/></svg></span>
+              <span style="font-size:0.85rem;font-weight:600;color:var(--nx-purple)">Nexora</span>
+              <span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:#28c840;box-shadow:0 0 6px #28c840"></span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.75rem;padding:0.7rem;background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.12);border-radius:10px">
+              <span><svg class="ic"><use href="#ic-hospital"/></svg></span>
+              <span style="font-size:0.85rem;font-weight:600;color:var(--mn-green)">MediNest</span>
+              <span style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:#28c840;box-shadow:0 0 6px #28c840"></span>
+            </div>
+          </div>
+          <div style="margin-top:0.75rem;padding:0.7rem;background:rgba(245,200,66,0.06);border:1px solid rgba(245,200,66,0.12);border-radius:10px;font-size:0.78rem;color:rgba(15,23,42,0.5);text-align:center">
+            <svg class="ic"><use href="#ic-star8"/></svg> Source available on GitHub · no longer hosted
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─── Tech Stack ─── -->
+<section class="section techstack-section" id="stack">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <span class="section-tag" style="background:rgba(15,23,42,0.06);color:rgba(15,23,42,0.6);border:1px solid rgba(15,23,42,0.1)">Tech Stack</span>
+      <h2 class="section-title" style="text-align:center">Built with modern tools</h2>
+      <p class="section-desc" style="margin:0.75rem auto 0;text-align:center">Technologies powering the CrownDesk ecosystem across all four applications.</p>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-card reveal delay-1"><div class="stack-icon"><svg class="ic"><use href="#ic-terminal"/></svg></div><div class="stack-name">Python</div><div class="stack-sub">Core backend</div></div>
+      <div class="stack-card reveal delay-1"><div class="stack-icon"><svg class="ic"><use href="#ic-flask"/></svg></div><div class="stack-name">Flask</div><div class="stack-sub">JobDesk · Nexora · Hub</div></div>
+      <div class="stack-card reveal delay-2"><div class="stack-icon"><svg class="ic"><use href="#ic-atom"/></svg></div><div class="stack-name">React · Next.js</div><div class="stack-sub">MediNest frontend</div></div>
+      <div class="stack-card reveal delay-2"><div class="stack-icon"><svg class="ic"><use href="#ic-diamond"/></svg></div><div class="stack-name">TypeScript</div><div class="stack-sub">MediNest · Next.js</div></div>
+      <div class="stack-card reveal delay-3"><div class="stack-icon"><svg class="ic"><use href="#ic-palette"/></svg></div><div class="stack-name">Tailwind CSS</div><div class="stack-sub">MediNest UI</div></div>
+      <div class="stack-card reveal delay-3"><div class="stack-icon"><svg class="ic"><use href="#ic-database"/></svg></div><div class="stack-name">SQLite / PostgreSQL</div><div class="stack-sub">Databases</div></div>
+      <div class="stack-card reveal delay-4"><div class="stack-icon"><svg class="ic"><use href="#ic-bot"/></svg></div><div class="stack-name">Claude AI</div><div class="stack-sub">Nexora · MediNest</div></div>
+      <div class="stack-card reveal delay-4"><div class="stack-icon"><svg class="ic"><use href="#ic-chart"/></svg></div><div class="stack-name">Chart.js</div><div class="stack-sub">JobDesk analytics</div></div>
+      <div class="stack-card reveal delay-5"><div class="stack-icon"><svg class="ic"><use href="#ic-globe"/></svg></div><div class="stack-name">Three.js</div><div class="stack-sub">3D anatomy</div></div>
+      <div class="stack-card reveal delay-5"><div class="stack-icon"><svg class="ic"><use href="#ic-docker"/></svg></div><div class="stack-name">Docker</div><div class="stack-sub">MediNest deploy</div></div>
+      <div class="stack-card reveal delay-1"><div class="stack-icon"><svg class="ic"><use href="#ic-cycle"/></svg></div><div class="stack-name">GitHub · CI/CD</div><div class="stack-sub">Render auto-deploy</div></div>
+      <div class="stack-card reveal delay-2"><div class="stack-icon"><svg class="ic"><use href="#ic-lock"/></svg></div><div class="stack-name">JWT + OAuth</div><div class="stack-sub">Auth layer</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─── About Section ─── -->
+<section class="section about-section" id="about">
+  <div class="section-inner">
+
+    <!-- Hero intro -->
+    <div class="about-hero reveal">
+      <div class="about-avatar-wrap">
+        <div class="about-avatar-ring"></div>
+        <div class="about-avatar">SN</div>
+      </div>
+      <div class="about-name">Shreyas Nandi</div>
+      <div class="about-role">Full-Stack Developer · Frontend-focused · React · TypeScript · Next.js · M.Sc. Student at FOM Hochschule, München</div>
+      <p class="about-bio">I'm a frontend-focused developer who builds complete, production-ready products. I specialise in React and TypeScript — from component architecture and state management to CI/CD-deployed, micro-frontend-style ecosystems. My flagship project, CrownDesk, is a 5-service ecosystem running under one domain, designed, built, and shipped entirely by me.</p>
+      <p class="about-bio" style="margin-top:0.5rem">Originally from Mumbai, now based in Munich, I bring a global perspective to everything I build. I care about clean code, performant UIs, and shipping real features that users interact with.</p>
+      <div class="about-traits">
+        <span class="about-trait"><svg class="ic"><use href="#ic-atom"/></svg> React · Next.js</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-diamond"/></svg> TypeScript</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-rocket"/></svg> Ship-first mindset</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-wrench"/></svg> Frontend builder</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-users"/></svg> Team player</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-bolt"/></svg> Fast learner</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-bot"/></svg> AI integrator</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-docker"/></svg> Docker · CI/CD</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-ruler"/></svg> Clean architecture</span>
+        <span class="about-trait"><svg class="ic"><use href="#ic-scale"/></svg> GDPR conscious</span>
+      </div>
+      <div class="about-links">
+        <a href="mailto:shreyasnandi04@gmail.com" class="about-link primary"><svg class="ic"><use href="#ic-mail"/></svg> Email Me</a>
+        <a href="https://github.com/crowndesk01-cmyk" target="_blank" class="about-link"><svg class="ic"><use href="#ic-globe"/></svg> CrownDesk Hub</a>
+        <a href="https://github.com/shreyasnandi04-cpu" target="_blank" class="about-link"><svg class="ic"><use href="#ic-code"/></svg> GitHub</a>
+      </div>
+    </div>
+
+    <!-- 3-col body -->
+    <div class="about-body">
+
+      <!-- Col 1: Personal info + languages -->
+      <div class="reveal-left">
+        <div class="about-card">
+          <div class="about-card-title">Personal Info</div>
+          <div class="about-facts">
+            <div class="about-fact">
+              <span class="about-fact-icon"><svg class="ic"><use href="#ic-pin"/></svg></span>
+              <div><strong>Location</strong>München, Deutschland</div>
+            </div>
+            <div class="about-fact">
+              <span class="about-fact-icon"><svg class="ic"><use href="#ic-mail"/></svg></span>
+              <div><strong>Email</strong><a href="mailto:shreyasnandi04@gmail.com" style="color:var(--gold)">shreyasnandi04@gmail.com</a></div>
+            </div>
+            <div class="about-fact">
+              <span class="about-fact-icon"><svg class="ic"><use href="#ic-cap"/></svg></span>
+              <div><strong>Master's</strong>M.Sc. Big Data &amp; Business Analytics</div>
+            </div>
+            <div class="about-fact">
+              <span class="about-fact-icon"><svg class="ic"><use href="#ic-school"/></svg></span>
+              <div><strong>University</strong>FOM Hochschule, München</div>
+            </div>
+            <div class="about-fact">
+              <span class="about-fact-icon"><svg class="ic"><use href="#ic-doc"/></svg></span>
+              <div><strong>Bachelor's</strong>B.Sc. IT — SIES College, Mumbai</div>
+            </div>
+            <div class="about-fact">
+              <span class="about-fact-icon"><svg class="ic"><use href="#ic-globe"/></svg></span>
+              <div><strong>Languages</strong>English · Hindi · Deutsch (basic)</div>
+            </div>
+            <div class="about-fact">
+              <span class="about-fact-icon"><svg class="ic"><use href="#ic-target"/></svg></span>
+              <div><strong>Status</strong>Open to internships &amp; entry-level roles</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-card" style="margin-top:1.2rem">
+          <div class="about-card-title">Technical Skills</div>
+          <div class="skill-bars" id="skill-bars">
+            <div class="skill-bar-item">
+              <div class="skill-bar-header"><span class="skill-bar-name">Python (Flask · FastAPI)</span><span class="skill-bar-pct">88%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88" style="background:linear-gradient(90deg,var(--gold),#ffab00)"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header"><span class="skill-bar-name">TypeScript · React · Next.js</span><span class="skill-bar-pct">78%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="78" style="background:linear-gradient(90deg,var(--jd-cyan),var(--jd-teal))"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header"><span class="skill-bar-name">SQL · Databases</span><span class="skill-bar-pct">80%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="80" style="background:linear-gradient(90deg,var(--nx-purple),var(--nx-pink))"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header"><span class="skill-bar-name">Java · C · C++</span><span class="skill-bar-pct">72%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="72" style="background:linear-gradient(90deg,var(--mn-green),var(--mn-blue))"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header"><span class="skill-bar-name">HTML · CSS · Tailwind</span><span class="skill-bar-pct">85%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="85" style="background:linear-gradient(90deg,#ff8ad8,var(--nx-purple))"></div></div>
+            </div>
+            <div class="skill-bar-item">
+              <div class="skill-bar-header"><span class="skill-bar-name">Docker · Render · Deploy</span><span class="skill-bar-pct">65%</span></div>
+              <div class="skill-bar-track"><div class="skill-bar-fill" data-width="65" style="background:linear-gradient(90deg,rgba(15,23,42,0.6),rgba(15,23,42,0.3))"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2: Timeline -->
+      <div class="reveal delay-2">
+        <div class="about-card">
+          <div class="about-card-title">Experience &amp; Education</div>
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-left"><div class="timeline-dot project"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <span class="timeline-badge badge-proj">Project</span>
+                <div class="timeline-role">CrownDesk Ecosystem</div>
+                <div class="timeline-company">Independent · Full-stack Builder</div>
+                <div class="timeline-period">2024 – Present</div>
+                <ul class="timeline-bullets">
+                  <li>Built 4 interconnected web apps — React/Next.js frontend for MediNest</li>
+                  <li>TypeScript throughout the Next.js app; Jinja2/JS for Flask apps</li>
+                  <li>CI/CD via GitHub → Render auto-deploy on every push</li>
+                  <li>Integrated Claude AI, Chart.js, Three.js, OAuth across apps</li>
+                </ul>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-left"><div class="timeline-dot"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <span class="timeline-badge badge-exp">Experience</span>
+                <div class="timeline-role">Web Development Intern</div>
+                <div class="timeline-company">Skolar · Mumbai, India</div>
+                <div class="timeline-period">Nov 2023 – Feb 2024 · 3 months</div>
+                <ul class="timeline-bullets">
+                  <li>Designed &amp; built responsive web applications</li>
+                  <li>Implemented CRUD operations with databases</li>
+                  <li>Collaborated in team using structured dev practices</li>
+                  <li>Front-end &amp; back-end technologies, modern stack</li>
+                </ul>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-left"><div class="timeline-dot edu"></div><div class="timeline-line"></div></div>
+              <div class="timeline-content">
+                <span class="timeline-badge badge-edu">Education</span>
+                <div class="timeline-role">B.Sc. Information Technology</div>
+                <div class="timeline-company">SIES College · Mumbai, India</div>
+                <div class="timeline-period">Sep 2022 – Mar 2025</div>
+                <ul class="timeline-bullets">
+                  <li>Java, C, Python, C++, SQL core languages</li>
+                  <li>Databases, OS, Networking fundamentals</li>
+                  <li>Software engineering &amp; project development</li>
+                </ul>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-left"><div class="timeline-dot edu"></div></div>
+              <div class="timeline-content">
+                <span class="timeline-badge badge-edu">Education</span>
+                <div class="timeline-role">M.Sc. Big Data &amp; Business Analytics</div>
+                <div class="timeline-company">FOM Hochschule · München, Germany</div>
+                <div class="timeline-period">Sep 2025 – Present</div>
+                <div class="timeline-note">Full-time Master's programme. Data science, machine learning, business intelligence, and analytics at scale.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 3: What I bring + ecosystem stats -->
+      <div class="reveal-right">
+        <div class="about-card">
+          <div class="about-card-title">What I Bring</div>
+          <div style="display:grid;gap:0.7rem">
+            <div style="padding:0.9rem;border-radius:var(--radius-sm);background:rgba(0,212,255,0.05);border:1px solid rgba(0,212,255,0.1)">
+              <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.3rem"><svg class="ic"><use href="#ic-atom"/></svg> React · TypeScript · Next.js</div>
+              <div style="font-size:0.82rem;color:rgba(15,23,42,0.55);line-height:1.5">Built production UIs with React/Next.js and TypeScript — component architecture, hooks, and type-safe data flows.</div>
+            </div>
+            <div style="padding:0.9rem;border-radius:var(--radius-sm);background:rgba(245,200,66,0.05);border:1px solid rgba(245,200,66,0.1)">
+              <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.3rem"><svg class="ic"><use href="#ic-build"/></svg> Micro-Frontend Mindset</div>
+              <div style="font-size:0.82rem;color:rgba(15,23,42,0.55);line-height:1.5">CrownDesk is structured as independently-deployable apps under one gateway — the same pattern as micro-frontends.</div>
+            </div>
+            <div style="padding:0.9rem;border-radius:var(--radius-sm);background:rgba(157,78,221,0.05);border:1px solid rgba(157,78,221,0.1)">
+              <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.3rem"><svg class="ic"><use href="#ic-cycle"/></svg> GitHub · CI/CD</div>
+              <div style="font-size:0.82rem;color:rgba(15,23,42,0.55);line-height:1.5">Version control via GitHub, automated deploys with Render's CI/CD pipeline — every push ships to production.</div>
+            </div>
+            <div style="padding:0.9rem;border-radius:var(--radius-sm);background:rgba(0,229,160,0.05);border:1px solid rgba(0,229,160,0.1)">
+              <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.3rem"><svg class="ic"><use href="#ic-bot"/></svg> AI Integration</div>
+              <div style="font-size:0.82rem;color:rgba(15,23,42,0.55);line-height:1.5">Hands-on experience integrating Claude AI and Groq into production web apps with real user-facing features.</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem">
+          <div style="padding:1.2rem;border-radius:var(--radius-sm);background:rgba(245,200,66,0.06);border:1px solid rgba(245,200,66,0.12);text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--gold)">4</div>
+            <div style="font-size:0.72rem;color:rgba(15,23,42,0.45);margin-top:0.2rem">Apps built</div>
+          </div>
+          <div style="padding:1.2rem;border-radius:var(--radius-sm);background:rgba(0,229,160,0.06);border:1px solid rgba(0,229,160,0.12);text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--mn-green)">15+</div>
+            <div style="font-size:0.72rem;color:rgba(15,23,42,0.45);margin-top:0.2rem">AI modules</div>
+          </div>
+          <div style="padding:1.2rem;border-radius:var(--radius-sm);background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.12);text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--jd-cyan)">1</div>
+            <div style="font-size:0.72rem;color:rgba(15,23,42,0.45);margin-top:0.2rem">Live domain</div>
+          </div>
+          <div style="padding:1.2rem;border-radius:var(--radius-sm);background:rgba(157,78,221,0.06);border:1px solid rgba(157,78,221,0.12);text-align:center">
+            <div style="font-size:1.8rem;font-weight:800;color:var(--nx-purple)">50+</div>
+            <div style="font-size:0.72rem;color:rgba(15,23,42,0.45);margin-top:0.2rem">Features shipped</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── Footer ─── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div style="display:flex;align-items:center;gap:0.7rem">
+        <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--gold),#ffab00);border-radius:10px;display:grid;place-items:center;font-size:1rem"><svg class="ic"><use href="#ic-crown"/></svg></div>
+        <div class="footer-brand-name">CrownDesk</div>
+      </div>
+      <p class="footer-brand-desc">A unified ecosystem of four production-ready web applications — built by Shreyas Nandi.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <div class="footer-links">
+        <a href="https://github.com/crowndesk01-cmyk" target="_blank">CrownDesk Hub</a>
+        <a href="https://github.com/crowndesk01-cmyk" target="_blank">JobDesk</a>
+        <a href="https://github.com/crowndesk01-cmyk" target="_blank">Nexora</a>
+        <a href="https://github.com/crowndesk01-cmyk" target="_blank">MediNest</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Portfolio</div>
+      <div class="footer-links">
+        <a href="#hero">Overview</a>
+        <a href="#ecosystem">Ecosystem</a>
+        <a href="#stack">Tech Stack</a>
+        <a href="#about">About</a>
+        <a href="../shreyas_personal_website/index.html">Full Portfolio</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Contact</div>
+      <div class="footer-links">
+        <a href="mailto:shreyasnandi04@gmail.com">shreyasnandi04@gmail.com</a>
+        <a href="#">München, Deutschland</a>
+        <a href="mailto:shreyasnandi04@gmail.com">Open to opportunities</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Shreyas Nandi · CrownDesk Ecosystem</span>
+    <span>Built with <svg class="ic"><use href="#ic-heart"/></svg> — <a href="https://github.com/crowndesk01-cmyk" target="_blank">github.com/crowndesk01-cmyk</a></span>
+  </div>
+</footer>
+
+<script>
+  /* ─── Starfield + day/night toggle ─── */
+  // ── Dusk → midnight: publish scroll progress as --sp (0 at top, 1 at bottom) ──
+  (function skyProgress() {
+    const root = document.documentElement;
+    let queued = false;
+    function apply() {
+      queued = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(Math.max(window.scrollY / max, 0), 1) : 0;
+      const eased = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      root.style.setProperty('--sp', eased.toFixed(4));
+    }
+    function schedule() { if (!queued) { queued = true; requestAnimationFrame(apply); } }
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule, { passive: true });
+    apply();
+  })();
+
+  // ── Space parallax: layers drift at different rates on scroll + pointer ──
+  (function spaceParallax() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const layers = [
+      { el: document.getElementById('stars'),     scroll: .05, pointer:  6 },
+    ].filter(l => l.el);
+    if (!layers.length) return;
+    let sy = window.scrollY, px = 0, py = 0, queued = false;
+    function apply() {
+      queued = false;
+      for (const l of layers) {
+        const x = px * l.pointer, y = sy * l.scroll + py * l.pointer;
+        l.el.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+      }
+    }
+    function schedule() { if (!queued) { queued = true; requestAnimationFrame(apply); } }
+    addEventListener('scroll', () => { sy = window.scrollY; schedule(); }, { passive: true });
+    if (innerWidth > 768) {
+      addEventListener('mousemove', e => {
+        px = (e.clientX / innerWidth  - .5) * 2;
+        py = (e.clientY / innerHeight - .5) * 2;
+        schedule();
+      }, { passive: true });
+    }
+    apply();
+  })();
+
+  (function makeStars() {
+    const wrap = document.getElementById('stars');
+    if (!wrap) return;
+    const n = window.innerWidth < 600 ? 70 : 130;
+    let html = '';
+    for (let i = 0; i < n; i++) {
+      const x = (Math.random()*100).toFixed(2), y = (Math.random()*100).toFixed(2);
+      const s = (Math.random()*2+1).toFixed(2), tw = (Math.random()*3+2).toFixed(2), dl = (Math.random()*4).toFixed(2);
+      html += `<span class="star" style="left:${x}%;top:${y}%;width:${s}px;height:${s}px;--tw:${tw}s;--dl:${dl}s"></span>`;
+    }
+    wrap.innerHTML = html;
+  })();
+
+  /* ─── Mouse-Reactive Particle System ─── */
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouseX = -1000, mouseY = -1000;
+
+  function resizeCanvas() {
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Track mouse for particle interaction
+  document.querySelector('.hero').addEventListener('mousemove', e => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+  });
+  document.querySelector('.hero').addEventListener('mouseleave', () => { mouseX = -1000; mouseY = -1000; });
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.baseSize = Math.random() * 2 + 0.5;
+      this.size = this.baseSize;
+      this.speedX = (Math.random() - 0.5) * 0.4;
+      this.speedY = (Math.random() - 0.5) * 0.4;
+      this.baseOpacity = Math.random() * 0.5 + 0.1;
+      this.opacity = this.baseOpacity;
+      const colors = ['245,200,66', '0,212,255', '157,78,221', '0,229,160'];
+      this.color = colors[Math.floor(Math.random() * colors.length)];
+    }
+    update() {
+      // Mouse repulsion
+      const dx = this.x - mouseX;
+      const dy = this.y - mouseY;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 120) {
+        const force = (120 - dist) / 120;
+        this.x += (dx / dist) * force * 2;
+        this.y += (dy / dist) * force * 2;
+        this.size = this.baseSize + force * 3;
+        this.opacity = Math.min(this.baseOpacity + force * 0.5, 1);
+      } else {
+        this.size += (this.baseSize - this.size) * 0.1;
+        this.opacity += (this.baseOpacity - this.opacity) * 0.1;
+      }
+      this.x += this.speedX;
+      this.y += this.speedY;
+      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    particles.forEach((p, i) => {
+      particles.slice(i + 1).forEach(q => {
+        const dist = Math.hypot(p.x - q.x, p.y - q.y);
+        if (dist < 100) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(q.x, q.y);
+          ctx.strokeStyle = `rgba(245,200,66,${0.08 * (1 - dist / 100)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      });
+    });
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  /* ─── Typewriter ─── */
+  const lines = ['Four Apps. One Ecosystem.', 'Career · Social · Medical · Hub', 'Built for Real Users.'];
+  let lineIdx = 0, charIdx = 0, deleting = false;
+  const tw = document.getElementById('typewriter-line');
+  tw.classList.add('typewriter');
+
+  function typeNext() {
+    const current = lines[lineIdx];
+    if (!deleting) {
+      charIdx++;
+      tw.textContent = current.slice(0, charIdx);
+      if (charIdx === current.length) { deleting = true; setTimeout(typeNext, 2200); return; }
+    } else {
+      charIdx--;
+      tw.textContent = current.slice(0, charIdx);
+      if (charIdx === 0) { deleting = false; lineIdx = (lineIdx + 1) % lines.length; }
+    }
+    setTimeout(typeNext, deleting ? 45 : 90);
+  }
+  setTimeout(typeNext, 1400);
+
+  /* ─── Scroll Reveal ─── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+  /* ─── Counter with easeOutQuart ─── */
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = +el.dataset.target;
+        const duration = 1800;
+        const start = performance.now();
+        function tick(now) {
+          const t = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - t, 4);
+          el.textContent = Math.round(target * eased);
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterObs.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.counter-val').forEach(el => counterObs.observe(el));
+
+  /* ─── Skill Bars Animation ─── */
+  const skillObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.skill-bar-fill').forEach((bar, i) => {
+          setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, i * 120);
+        });
+        skillObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const skillSection = document.getElementById('skill-bars');
+  if (skillSection) skillObs.observe(skillSection);
+
+  /* ─── 3D Tilt on Product Mock Cards ─── */
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.product-card-mock, .eco-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.03)`;
+        card.style.transition = 'transform 0.1s ease';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      });
+    });
+  }
+
+  /* ─── Magnetic Buttons ─── */
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px) scale(1.05)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+  }
+
+  /* ─── Parallax Scroll on Section Backgrounds ─── */
+  if (window.innerWidth > 768) {
+    const parallaxEls = document.querySelectorAll('.hero-glow, .jobdesk-section::before, .nexora-section::before, .medinest-section::before');
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const heroGlow = document.querySelector('.hero-glow');
+      if (heroGlow) {
+        heroGlow.style.transform = `translate(-50%, calc(-60% + ${scrollY * 0.15}px))`;
+      }
+    });
+  }
+
+  /* ─── Smooth Nav Hide/Show on Scroll ─── */
+  let lastScrollY = 0;
+  const nav = document.querySelector('.nav');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y > 300 && y > lastScrollY) {
+      nav.style.transform = 'translateY(-100%)';
+    } else {
+      nav.style.transform = 'translateY(0)';
+    }
+    lastScrollY = y;
+  });
+
+  /* ─── Active Nav Link ─── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? '#0f172a' : '';
+      a.style.background = a.getAttribute('href') === '#' + current ? 'rgba(15,23,42,0.08)' : '';
+    });
+  });
+
+  /* ─── Stagger eco-cards on reveal ─── */
+  const ecoObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const cards = e.target.querySelectorAll('.eco-card');
+        cards.forEach((card, i) => {
+          setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, i * 150);
+        });
+        ecoObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  const ecoGrid = document.querySelector('.ecosystem-grid');
+  if (ecoGrid) ecoObs.observe(ecoGrid);
+
+  /* ─── Animated Chart Bars on Scroll ─── */
+  const chartObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.mock-bar-v').forEach((bar, i) => {
+          const h = bar.style.height;
+          bar.style.height = '0%';
+          setTimeout(() => { bar.style.height = h; }, i * 100);
+        });
+        chartObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.mock-chart').forEach(el => chartObs.observe(el));
+</script>
+</body>
+</html>

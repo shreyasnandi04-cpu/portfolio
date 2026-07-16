@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyas Nandi — Full-Stack Developer (Frontend-focused) · München</title>
+  <meta name="description" content="Shreyas Nandi — Full-Stack Developer, frontend-focused, based in Munich. React, TypeScript, Next.js, Python. M.Sc. student at FOM Hochschule. Open to working student roles." />
+  <meta name="author" content="Shreyas Nandi" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<!-- ══ GOLD ICON SPRITE — line art, used via <svg class="ic"><use href="#ic-…"> ══ -->
+<svg class="ic-sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="goldStroke" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%"   stop-color="#fff4d0"/>
+      <stop offset="48%"  stop-color="#e8c87d"/>
+      <stop offset="100%" stop-color="#c9a24d"/>
+    </linearGradient>
+  </defs>
+  <symbol id="ic-mail" viewBox="0 0 24 24"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M3.2 6.6 12 13l8.8-6.4"/></symbol>
+  <symbol id="ic-code" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="13" rx="2"/><path d="M1.5 20.5h21"/><path d="M9.4 8.6 7 11l2.4 2.4M14.6 8.6 17 11l-2.4 2.4"/></symbol>
+  <symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 21.5s7-5.9 7-11.5a7 7 0 1 0-14 0c0 5.6 7 11.5 7 11.5Z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+  <symbol id="ic-cap" viewBox="0 0 24 24"><path d="M2.5 8.6 12 4.2l9.5 4.4L12 13 2.5 8.6Z"/><path d="M6.6 10.7v4.6c0 1.6 2.4 2.9 5.4 2.9s5.4-1.3 5.4-2.9v-4.6"/><path d="M21.5 8.6v5.2"/></symbol>
+  <symbol id="ic-star8" viewBox="0 0 24 24"><path d="M12 6c.5 4.3 1.4 5.2 5.7 5.7l1.9.3-1.9.3c-4.3.5-5.2 1.4-5.7 5.7l-.3 1.9-.3-1.9c-.5-4.3-1.4-5.2-5.7-5.7L3.8 12l1.9-.3C10 11.2 10.9 10.3 11.4 6Z"/><circle cx="12" cy="12" r="9.2" stroke-dasharray="0.1 2.6"/></symbol>
+  <symbol id="ic-atom" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.7"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></symbol>
+  <symbol id="ic-diamond" viewBox="0 0 24 24"><path d="M12 2.6 21.4 12 12 21.4 2.6 12Z"/><path d="M7.3 12 12 7.3l4.7 4.7L12 16.7Z"/></symbol>
+  <symbol id="ic-terminal" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="2.5"/><path d="M7 9.5 10 12l-3 2.5M12.8 15h4.4"/></symbol>
+  <symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13.6 2.5 5.2 13.4h5.6l-1.4 8.1 8.4-10.9h-5.6Z"/></symbol>
+  <symbol id="ic-cycle" viewBox="0 0 24 24"><path d="M3.6 12a8.4 8.4 0 0 1 14.3-6"/><path d="M20.4 12a8.4 8.4 0 0 1-14.3 6"/><path d="M18.4 2.2v4h-4M5.6 21.8v-4h4"/></symbol>
+  <symbol id="ic-docker" viewBox="0 0 24 24"><rect x="3.2" y="10.6" width="3.6" height="3.6"/><rect x="7.8" y="10.6" width="3.6" height="3.6"/><rect x="12.4" y="10.6" width="3.6" height="3.6"/><rect x="7.8" y="6.4" width="3.6" height="3.6"/><path d="M2.2 16.4c2.2 3.1 5.6 4.4 9.4 4.4 4.6 0 8.4-2.3 10.2-6.6-1.6-.7-3.3-.5-4.6.4"/></symbol>
+  <symbol id="ic-bot" viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11.5" rx="3"/><circle cx="9.2" cy="13.4" r="1.4"/><circle cx="14.8" cy="13.4" r="1.4"/><path d="M12 8V4.4M9.6 3.2h4.8M2.4 12.4v3.2M21.6 12.4v3.2"/></symbol>
+  <symbol id="ic-ruler" viewBox="0 0 24 24"><path d="M3.5 20.5h17L3.5 3.5Z"/><path d="M7.6 20.5v-2.8M11.2 20.5v-4.6M14.8 20.5v-2.4"/></symbol>
+  <symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4"/><ellipse cx="12" cy="12" rx="4.1" ry="9.2"/></symbol>
+  <symbol id="ic-scale" viewBox="0 0 24 24"><path d="M12 3.4v17.2M7.2 20.6h9.6"/><path d="M12 6.4 4.8 8.8M12 6.4l7.2 2.4"/><path d="M2.4 14.2a2.4 2.4 0 0 0 4.8 0L4.8 8.8Z"/><path d="M16.8 14.2a2.4 2.4 0 0 0 4.8 0L19.2 8.8Z"/></symbol>
+  <symbol id="ic-hospital" viewBox="0 0 24 24"><rect x="3.5" y="7.4" width="17" height="13.2" rx="2"/><path d="M7.4 7.4V4.4h9.2v3"/><path d="M12 10.8v6.4M8.8 14h6.4"/></symbol>
+  <symbol id="ic-brain" viewBox="0 0 24 24"><path d="M12 5.4a3 3 0 0 0-5.6-1.5A2.9 2.9 0 0 0 3.4 8.8a3 3 0 0 0 .8 4.4 3 3 0 0 0 2.9 5.1 3 3 0 0 0 4.9 1.2Z"/><path d="M12 5.4a3 3 0 0 1 5.6-1.5 2.9 2.9 0 0 1 3 4.9 3 3 0 0 1-.8 4.4 3 3 0 0 1-2.9 5.1 3 3 0 0 1-4.9 1.2Z"/><path d="M12 5.4v14.1"/></symbol>
+  <symbol id="ic-pill" viewBox="0 0 24 24"><rect x="2.6" y="8.6" width="18.8" height="6.8" rx="3.4" transform="rotate(-45 12 12)"/><path d="M8.6 8.6 15.4 15.4"/></symbol>
+  <symbol id="ic-briefcase" viewBox="0 0 24 24"><rect x="2.5" y="7" width="19" height="13" rx="2.5"/><path d="M8.6 7V5.6A1.6 1.6 0 0 1 10.2 4h3.6a1.6 1.6 0 0 1 1.6 1.6V7"/><path d="M2.5 12.4h19"/></symbol>
+  <symbol id="ic-chart" viewBox="0 0 24 24"><path d="M3.5 20.5h17"/><rect x="5.4" y="10.6" width="3.4" height="7.4"/><rect x="10.3" y="6.2" width="3.4" height="11.8"/><rect x="15.2" y="13.4" width="3.4" height="4.6"/></symbol>
+  <symbol id="ic-folder" viewBox="0 0 24 24"><path d="M3 6.6A1.6 1.6 0 0 1 4.6 5h4.2l2.2 2.6h8.4A1.6 1.6 0 0 1 21 9.2v8.8a1.6 1.6 0 0 1-1.6 1.6H4.6A1.6 1.6 0 0 1 3 18Z"/></symbol>
+  <symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9" cy="8.4" r="3.3"/><path d="M2.8 19.6a6.2 6.2 0 0 1 12.4 0"/><path d="M16.4 5.4a3.3 3.3 0 0 1 0 6M17.6 14a6.2 6.2 0 0 1 3.6 5.6"/></symbol>
+  <symbol id="ic-lock" viewBox="0 0 24 24"><rect x="4.4" y="10.4" width="15.2" height="9.6" rx="2"/><path d="M7.8 10.4V7.6a4.2 4.2 0 0 1 8.4 0v2.8"/><circle cx="12" cy="15.2" r="1.3"/></symbol>
+  <symbol id="ic-map" viewBox="0 0 24 24"><path d="M2.8 6.6 9 4.2v13.2l-6.2 2.4Z"/><path d="M9 4.2 15 6.6v13.2L9 17.4Z"/><path d="M15 6.6l6.2-2.4v13.2L15 19.8Z"/></symbol>
+  <symbol id="ic-crown" viewBox="0 0 24 24"><path d="M2.6 7.4 6.4 11.8 12 5l5.6 6.8 3.8-4.4-1.6 11.2H4.2Z"/><path d="M4.6 20.6h14.8"/></symbol>
+  <symbol id="ic-shuffle" viewBox="0 0 24 24"><path d="M2.8 7h3.4c4 0 5.6 10 9.6 10h5.4M2.8 17h3.4c1.7 0 2.9-1.8 3.9-4M14.6 9.6c1-1.7 2.2-2.6 3.8-2.6h3.4"/><path d="M18.4 4 21.6 7l-3.2 3M18.4 14l3.2 3-3.2 3"/></symbol>
+  <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2.8 20 6v6.1c0 4.4-3.2 8.3-8 9.6-4.8-1.3-8-5.2-8-9.6V6Z"/><path d="M8.8 11.8 11 14l4.2-4.2"/></symbol>
+  <symbol id="ic-signal" viewBox="0 0 24 24"><path d="M8.4 8.4a5 5 0 0 1 7.2 0M5.2 5.2a9.5 9.5 0 0 1 13.6 0"/><circle cx="12" cy="14.6" r="2.1"/><path d="M12 16.8v4.4"/></symbol>
+  <symbol id="ic-flag" viewBox="0 0 24 24"><path d="M5.2 21.5V3.2"/><path d="M5.2 4.4h11.6l-2.2 3.7 2.2 3.7H5.2Z"/></symbol>
+  <symbol id="ic-rocket" viewBox="0 0 24 24"><path d="M12 2.4c2.9 2.6 4.7 6.3 4.7 10.4l-1.9 4.2H9.2l-1.9-4.2C7.3 8.7 9.1 5 12 2.4Z"/><circle cx="12" cy="9.6" r="1.7"/><path d="M9.3 13.8 6.3 16.2v3.5l3-2.1M14.7 13.8l3 2.4v3.5l-3-2.1"/><path d="M10.7 19.2 12 21.6l1.3-2.4"/></symbol>
+  <symbol id="ic-party" viewBox="0 0 24 24"><path d="M3 21.2 7.6 8.6l7.8 7.8Z"/><path d="M14.6 4v2.4M19.6 8.2h2.2M17.6 5.4l1.6-1.6M14.8 11.4c1.6-1.6 4-1.6 5.6 0"/></symbol>
+  <symbol id="ic-heart" viewBox="0 0 24 24"><path d="M12 20.8S3.4 15.6 3.4 9.6a4.6 4.6 0 0 1 8.6-2.4 4.6 4.6 0 0 1 8.6 2.4c0 6-8.6 11.2-8.6 11.2Z"/></symbol>
+  <symbol id="ic-chat" viewBox="0 0 24 24"><path d="M20.6 12.2a7.6 7.6 0 0 1-10.8 6.9l-5.4 1.6 1.7-5.2A7.6 7.6 0 1 1 20.6 12.2Z"/></symbol>
+  <symbol id="ic-fire" viewBox="0 0 24 24"><path d="M12 21.4c3.6 0 6.4-2.7 6.4-6 0-4.6-4-6.2-4.6-10.4-2 1.6-3.2 4-3.2 6.2 0 1.2-1.2 1.6-1.8.6-.4-.8-.6-1.8-.5-2.8-1.8 1.9-3.3 4.2-3.3 6.4 0 3.3 2.9 6 7 6Z"/></symbol>
+  <symbol id="ic-dna" viewBox="0 0 24 24"><path d="M7.4 3c0 5.4 9.2 5.4 9.2 9s-9.2 3.6-9.2 9"/><path d="M16.6 3c0 5.4-9.2 5.4-9.2 9s9.2 3.6 9.2 9"/><path d="M8.8 6.4h6.4M8.8 17.6h6.4M7.6 9.6h8.8M7.6 14.4h8.8"/></symbol>
+  <symbol id="ic-clipboard" viewBox="0 0 24 24"><path d="M8.6 4.4H6.4a1.8 1.8 0 0 0-1.8 1.8v13.2a1.8 1.8 0 0 0 1.8 1.8h11.2a1.8 1.8 0 0 0 1.8-1.8V6.2a1.8 1.8 0 0 0-1.8-1.8h-2.2"/><rect x="8.6" y="2.4" width="6.8" height="4" rx="1.2"/><path d="M8.6 11.4h6.8M8.6 15.2h4.4"/></symbol>
+  <symbol id="ic-microscope" viewBox="0 0 24 24"><circle cx="10.4" cy="10.4" r="6.6"/><path d="M15.2 15.2 20.9 20.9"/><path d="M10.4 7.6v5.6M7.6 10.4h5.6"/></symbol>
+  <symbol id="ic-stethoscope" viewBox="0 0 24 24"><path d="M5.4 3v5.2a4.2 4.2 0 0 0 8.4 0V3"/><path d="M3.8 3h3.2M12.2 3h3.2"/><path d="M9.6 12.4v2a5.2 5.2 0 0 0 5.2 5.2 3.4 3.4 0 0 0 3.4-3.4v-1.8"/><circle cx="18.2" cy="12.4" r="2.1"/></symbol>
+  <symbol id="ic-doc" viewBox="0 0 24 24"><path d="M6.2 2.6h7l4.6 4.6v14.2H6.2Z"/><path d="M13.2 2.6v4.6h4.6"/><path d="M9 12.4h6M9 16h6"/></symbol>
+  <symbol id="ic-wellness" viewBox="0 0 24 24"><circle cx="12" cy="4.6" r="2.2"/><path d="M12 7.4v6.2"/><path d="M12 13.6 7.4 20.8M12 13.6l4.6 7.2"/><path d="M5.8 10.6h12.4"/></symbol>
+  <symbol id="ic-flask" viewBox="0 0 24 24"><path d="M9.6 2.8v6.4L4.4 18.6A1.6 1.6 0 0 0 5.8 21h12.4a1.6 1.6 0 0 0 1.4-2.4l-5.2-9.4V2.8"/><path d="M8 2.8h8"/><path d="M7.4 14.6h9.2"/></symbol>
+  <symbol id="ic-palette" viewBox="0 0 24 24"><path d="M12 2.8a9.2 9.2 0 0 0 0 18.4 1.9 1.9 0 0 0 1.9-1.9c0-.5-.2-.9-.5-1.2a1.8 1.8 0 0 1 1.3-3.1h2.2A4.4 4.4 0 0 0 21.2 10.6C21.2 6.3 17 2.8 12 2.8Z"/><circle cx="7.4" cy="10.6" r="1.1"/><circle cx="12" cy="7.4" r="1.1"/><circle cx="16.6" cy="10.6" r="1.1"/></symbol>
+  <symbol id="ic-database" viewBox="0 0 24 24"><ellipse cx="12" cy="5.8" rx="8" ry="3.2"/><path d="M4 5.8v12.4c0 1.8 3.6 3.2 8 3.2s8-1.4 8-3.2V5.8"/><path d="M4 12c0 1.8 3.6 3.2 8 3.2s8-1.4 8-3.2"/></symbol>
+  <symbol id="ic-wrench" viewBox="0 0 24 24"><path d="M20.4 5.6a5.6 5.6 0 0 1-7.4 5.3l-7 7a2.4 2.4 0 0 1-3.4-3.4l7-7a5.6 5.6 0 0 1 6.1-7.4l-3.2 3.2 2.5 2.5 3.2-3.2c.8 1.1 1.2 2.4 1.2 3.8Z"/></symbol>
+  <symbol id="ic-school" viewBox="0 0 24 24"><path d="M2.8 20.8h18.4"/><path d="M4.6 20.8V9.6L12 5.2l7.4 4.4v11.2"/><path d="M9.6 20.8v-5.6h4.8v5.6"/><path d="M12 2.6v2.6"/></symbol>
+  <symbol id="ic-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.2"/><circle cx="12" cy="12" r="1.6"/></symbol>
+  <symbol id="ic-build" viewBox="0 0 24 24"><path d="M12 2.8 21.2 7.4 12 12 2.8 7.4Z"/><path d="M2.8 12 12 16.6 21.2 12"/><path d="M2.8 16.6 12 21.2l9.2-4.6"/></symbol>
+</svg>
+
+<!-- ══ SPACE BACKGROUND — dusk at the top, midnight by the bottom (see --sp) ══ -->
+<div id="space-bg" aria-hidden="true">
+  <div class="sky"></div>
+  <div class="sky-deep"></div>
+  <div class="horizon-glow"></div>
+  <div class="nebula"></div>
+  <div class="stars" id="stars"></div>
+  <div class="shooting-star"></div>
+</div>
+
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- ══ NAVBAR ══ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo"><span class="logo-bracket">[</span>SN<span class="logo-bracket">]</span></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-right">
+      <button class="nav-toggle" id="navToggle" aria-label="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-glow-line"></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Available for Working Student Roles · München
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-line hero-line-1">Hi, I'm</span>
+      <span class="hero-line hero-line-2 gradient-text">Shreyas Nandi</span>
+      <span class="hero-line hero-line-3">Full-Stack Developer</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      <strong>Frontend-focused</strong> · M.Sc. student at FOM Hochschule München · Building production web apps with
+      <strong>React</strong>, <strong>TypeScript</strong> & <strong>Python</strong>.
+      From component design to CI/CD deployment — I ship complete, working products.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener" class="btn btn-glass">GitHub →</a>
+    </div>
+
+    <div class="hero-metrics">
+      <div class="metric">
+        <span class="metric-value" data-count="4">4</span>
+        <span class="metric-label">Apps Built</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric">
+        <span class="metric-value" data-count="50">50</span>
+        <span class="metric-label">Features Shipped</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric">
+        <span class="metric-value" data-count="15">15</span>
+        <span class="metric-label">AI Modules</span>
+      </div>
+      <div class="metric-divider"></div>
+      <div class="metric">
+        <span class="metric-value" data-count="3">3</span>
+        <span class="metric-label">Tech Stacks</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator"><div class="scroll-line"></div></div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-label">About me</span>
+    </div>
+
+    <div class="about-layout">
+      <div class="about-left">
+        <h2>Developer. Builder.<br/><span style="color:var(--accent)">Shipped to production.</span></h2>
+        <p>
+          I'm a frontend-focused full-stack developer based in Munich, currently pursuing a
+          <strong>M.Sc. in Big Data & Business Analytics</strong> at FOM Hochschule. I have a B.Sc. in
+          Information Technology from SIES College, Mumbai, and professional experience from a
+          web development internship at Skolar.
+        </p>
+        <p>
+          My main project is <strong>CrownDesk</strong> — a 4-app ecosystem I designed, built, and
+          deployed entirely solo. The frontend for MediNest is a full <strong>React + TypeScript + Next.js</strong>
+          app; the others use Flask/Jinja2. Every app is deployed via GitHub with <strong>Render CI/CD</strong>
+          auto-deploying on every push to main.
+        </p>
+        <p>
+          Originally from Mumbai, now building things in Munich. I care about clean code,
+          type-safe components, fast UIs, and shipping features that real users interact with.
+        </p>
+        <div class="about-tags">
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-atom"/></svg> React · Next.js</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-diamond"/></svg> TypeScript</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-terminal"/></svg> Python · Flask</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-bolt"/></svg> FastAPI</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-cycle"/></svg> GitHub · CI/CD</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-docker"/></svg> Docker</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-bot"/></svg> Claude AI</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-ruler"/></svg> Clean architecture</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-globe"/></svg> Munich-based</span>
+          <span class="tag-highlight"><svg class="ic"><use href="#ic-scale"/></svg> GDPR conscious</span>
+        </div>
+      </div>
+
+      <div class="about-right">
+        <div class="terminal-card">
+          <div class="terminal-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="terminal-body">
+            <div><span class="t-prompt">$ </span><span class="t-cmd">whoami</span></div>
+            <div class="t-output">Shreyas Nandi — Full-Stack Developer (frontend-focused)</div>
+            <br/>
+            <div><span class="t-prompt">$ </span><span class="t-cmd">cat location.txt</span></div>
+            <div class="t-output">München, Deutschland 🇩🇪</div>
+            <br/>
+            <div><span class="t-prompt">$ </span><span class="t-cmd">cat education.txt</span></div>
+            <div class="t-output">M.Sc. Big Data &amp; Business Analytics</div>
+            <div class="t-output">FOM Hochschule München · 2025 – present</div>
+            <div class="t-output">B.Sc. IT · SIES College Mumbai · 2022–25</div>
+            <br/>
+            <div><span class="t-prompt">$ </span><span class="t-cmd">cat experience.txt</span></div>
+            <div class="t-output">Web Dev Intern · Skolar · Nov 2023–Feb 2024</div>
+            <br/>
+            <div><span class="t-prompt">$ </span><span class="t-cmd">npm run status</span></div>
+            <div class="t-success">✓ Open to working student roles</div>
+            <div class="t-success">✓ Available in München</div>
+            <div class="t-success">✓ React · TypeScript · Next.js ready<span class="t-cursor">▌</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROJECTS ══ -->
+<section id="projects" class="project-section">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <span class="section-label">Projects</span>
+    </div>
+    <h2 class="section-title">Things I've built</h2>
+    <p class="section-desc">
+      Four production-grade web apps built solo under the CrownDesk ecosystem — each independently deployed,
+      with shared GitHub CI/CD and a reverse-proxy hub routing traffic under one domain.
+    </p>
+
+    <!-- MediNest — most relevant for frontend roles -->
+    <div class="project-showcase" style="--proj:#0ea5a4; margin-bottom:2rem;">
+      <div class="project-showcase-header">
+        <div class="project-badge-row">
+          <span class="project-status-badge">Featured · React + TypeScript</span>
+        </div>
+        <div class="project-title-row">
+          <span class="project-icon-lg"><svg class="ic"><use href="#ic-hospital"/></svg></span>
+          <div>
+            <h2>MediNest</h2>
+            <p class="project-tagline">AI-powered medical learning platform · FastAPI + React + Next.js + TypeScript</p>
+          </div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-description">
+          <p>
+            The most technically ambitious app in the ecosystem. The frontend is a <strong>React + TypeScript + Next.js</strong>
+            application styled with Tailwind CSS — component-driven, fully type-safe, and deployed via GitHub to Render.
+            The backend is a <strong>FastAPI</strong> service with PostgreSQL, containerised with Docker.
+          </p>
+          <p style="margin-top:.75rem">
+            Integrates <strong>Claude AI</strong> (medical assistant), <strong>DeepL</strong> (multilingual support),
+            <strong>PubMed API</strong> (research lookup), and a custom <strong>Three.js 3D anatomy explorer</strong>.
+          </p>
+        </div>
+        <div class="features-grid features-grid-3">
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-atom"/></svg></span>
+            <div><h5>React + TypeScript</h5><p>Type-safe component architecture with Next.js App Router</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-bot"/></svg></span>
+            <div><h5>Crown AI (Claude)</h5><p>Medical assistant with guardrailed clinical context</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-brain"/></svg></span>
+            <div><h5>3D Anatomy Explorer</h5><p>Interactive Three.js anatomical models</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-pill"/></svg></span>
+            <div><h5>Drug Interaction Checker</h5><p>Cross-country drug lookup with analysis</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-hospital"/></svg></span>
+            <div><h5>Clinical Case Simulator</h5><p>AI-generated patient cases with diagnostic scoring</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-docker"/></svg></span>
+            <div><h5>Docker + CI/CD</h5><p>Containerised — GitHub push triggers auto-deploy to Render</p></div>
+          </div>
+        </div>
+        <div class="project-stack">
+          <span>React</span><span>TypeScript</span><span>Next.js</span><span>Tailwind CSS</span>
+          <span>FastAPI</span><span>PostgreSQL</span><span>Docker</span>
+          <span>Claude AI</span><span>Three.js</span><span>DeepL API</span><span>PubMed API</span>
+        </div>
+        <div class="project-cta">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" rel="noopener" class="btn btn-primary" style="--btn-color:#2CA58D;--btn-glow:rgba(78,205,196,.35)">
+            View on GitHub →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- JobDesk -->
+    <div class="project-showcase" style="--proj:#0891b2; margin-bottom:2rem;">
+      <div class="project-showcase-header">
+        <div class="project-badge-row">
+          <span class="project-status-badge" style="color:#0e7490;border-color:#a5e8f5;background:#ecfeff">Analytics Dashboard · Flask</span>
+        </div>
+        <div class="project-title-row">
+          <span class="project-icon-lg"><svg class="ic"><use href="#ic-briefcase"/></svg></span>
+          <div>
+            <h2>JobDesk</h2>
+            <p class="project-tagline">Career intelligence platform for international students · Python Flask + Chart.js</p>
+          </div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-description">
+          <p>
+            A full job-tracking and career analytics workspace built for international students navigating German visa
+            constraints and dual-language applications. Features a <strong>16-KPI analytics dashboard</strong> with
+            10 interactive <strong>Chart.js</strong> charts and a real-time career score (0–100).
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-chart"/></svg></span>
+            <div><h5>16-KPI Dashboard</h5><p>Chart.js with real-time career scoring and trend analysis</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-brain"/></svg></span>
+            <div><h5>Recommendation Engine</h5><p>9 rule-based suggestions tailored to your application data</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-mail"/></svg></span>
+            <div><h5>Email Generator</h5><p>5 email types × 3 tones (formal, friendly, short)</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-folder"/></svg></span>
+            <div><h5>Full CRUD Tracker</h5><p>25+ fields per application, CSV import/export, doc vault</p></div>
+          </div>
+        </div>
+        <div class="project-stack">
+          <span>Python Flask</span><span>SQLAlchemy</span><span>Chart.js</span>
+          <span>Bootstrap 5</span><span>Pandas</span><span>SQLite</span><span>Jinja2</span>
+        </div>
+        <div class="project-cta">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" rel="noopener" class="btn btn-primary" style="--btn-color:#0e7490;--btn-glow:rgba(6,182,212,.35)">
+            View on GitHub →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nexora -->
+    <div class="project-showcase" style="--proj:#7c3aed; margin-bottom:2rem;">
+      <div class="project-showcase-header">
+        <div class="project-badge-row">
+          <span class="project-status-badge" style="color:#6d28d9;border-color:#ddd6fe;background:#f5f3ff">Social Platform · OAuth + AI</span>
+        </div>
+        <div class="project-title-row">
+          <span class="project-icon-lg"><svg class="ic"><use href="#ic-globe"/></svg></span>
+          <div>
+            <h2>Nexora</h2>
+            <p class="project-tagline">Social networking platform for international students · Flask + OAuth + Claude AI</p>
+          </div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-description">
+          <p>
+            A community platform built for international students in Germany — with communities, events,
+            direct messaging, stories, geolocation map, and an <strong>AI life coach</strong> powered by
+            Groq + Claude. Includes <strong>Google OAuth</strong>, <strong>GitHub OAuth</strong>, OTP
+            email verification, and GDPR-compliant age-gating.
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-users"/></svg></span>
+            <div><h5>Community Discovery</h5><p>Find communities by university, city, nationality, and interests</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-bot"/></svg></span>
+            <div><h5>AI Life Coach</h5><p>Groq + Claude for visa questions, culture shock, academic stress</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-lock"/></svg></span>
+            <div><h5>OAuth + OTP Auth</h5><p>Google / GitHub OAuth, email OTP, per-IP rate limiting</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-map"/></svg></span>
+            <div><h5>Interactive Map</h5><p>Geolocation map of communities and events across German cities</p></div>
+          </div>
+        </div>
+        <div class="project-stack">
+          <span>Python Flask</span><span>SQLAlchemy</span><span>Anthropic Claude</span>
+          <span>Groq AI</span><span>Google OAuth</span><span>GitHub OAuth</span>
+          <span>Geolocation</span><span>SQLite</span>
+        </div>
+        <div class="project-cta">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" rel="noopener" class="btn btn-primary" style="--btn-color:#6d28d9;--btn-glow:rgba(124,58,237,.35)">
+            View on GitHub →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CrownDesk Hub -->
+    <div class="project-showcase" style="--proj:#d97706;">
+      <div class="project-showcase-header">
+        <div class="project-badge-row">
+          <span class="project-status-badge" style="color:#b45309;border-color:#fde68a;background:#fffbeb">Micro-Frontend Gateway · Flask Proxy</span>
+        </div>
+        <div class="project-title-row">
+          <span class="project-icon-lg"><svg class="ic"><use href="#ic-crown"/></svg></span>
+          <div>
+            <h2>CrownDesk Hub</h2>
+            <p class="project-tagline">Reverse-proxy gateway + super-admin panel for the full ecosystem</p>
+          </div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-description">
+          <p>
+            The command-centre that ties all four apps together. A <strong>Flask reverse-proxy</strong> routing
+            <code style="color:var(--accent);font-family:var(--mono)">/jobdesk</code>,
+            <code style="color:var(--accent);font-family:var(--mono)">/nexora</code>,
+            <code style="color:var(--accent);font-family:var(--mono)">/medinest</code> to their respective
+            services under one domain — architecturally equivalent to a <strong>micro-frontend shell</strong>.
+            Includes a unified super-admin panel, CSRF middleware, live service health checks, and a
+            <strong>Free Beta Mode</strong> feature flag for launch gating without code changes.
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-shuffle"/></svg></span>
+            <div><h5>Smart Reverse Proxy</h5><p>Routes all sub-app traffic transparently under one domain</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-shield"/></svg></span>
+            <div><h5>CSRF + Auth</h5><p>Ecosystem-wide CSRF middleware with per-service exemptions</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-signal"/></svg></span>
+            <div><h5>Live Health Checks</h5><p>Continuous service status polling shown to users &amp; admins</p></div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon"><svg class="ic"><use href="#ic-flag"/></svg></span>
+            <div><h5>Feature Flags</h5><p>Payment gating, beta mode, per-app availability via env vars</p></div>
+          </div>
+        </div>
+        <div class="project-stack">
+          <span>Python Flask</span><span>Reverse Proxy</span><span>CSRF Middleware</span>
+          <span>Feature Flags</span><span>Docker</span><span>Render CI/CD</span>
+        </div>
+        <div class="project-cta">
+          <a href="https://github.com/crowndesk01-cmyk" target="_blank" rel="noopener" class="btn btn-primary" style="--btn-color:#b45309;--btn-glow:rgba(245,200,66,.3)">
+            View on GitHub →
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SKILLS ══ -->
+<section id="skills">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <span class="section-label">Skills</span>
+    </div>
+    <h2 class="section-title">Tech I work with</h2>
+    <p class="section-desc">
+      A pragmatic stack built through shipping real products — not tutorials.
+    </p>
+
+    <div class="skills-columns">
+      <div class="skill-col">
+        <h4>Frontend</h4>
+        <div class="skill-items">
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#61dafb"></span>React</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#000"></span>Next.js</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#f7df1e"></span>JavaScript</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#e34c26"></span>HTML · CSS</div>
+        </div>
+      </div>
+      <div class="skill-col">
+        <h4>Languages &amp; Backend</h4>
+        <div class="skill-items">
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#3776ab"></span>Python</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#336791"></span>SQL</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#f89820"></span>Java</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#659ad2"></span>C</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#00599c"></span>C++</div>
+        </div>
+      </div>
+      <div class="skill-col">
+        <h4>AI Integration</h4>
+        <div class="skill-items">
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#d4a000"></span>Claude API</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#f55036"></span>Groq API</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#10a37f"></span>ChatGPT</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#000"></span>Cursor</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#09b6a2"></span>Windsurf</div>
+        </div>
+      </div>
+      <div class="skill-col">
+        <h4>Tools &amp; Infra</h4>
+        <div class="skill-items">
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#0db7ed"></span>Docker</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#f05033"></span>Git · GitHub</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#4285f4"></span>Google OAuth</div>
+          <div class="skill-item"><span class="skill-dot" style="--dot-color:#333"></span>GitHub OAuth</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CONTACT ══ -->
+<section id="contact">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <span class="section-label">Contact</span>
+    </div>
+
+    <div class="contact-layout">
+      <div class="contact-left">
+        <h2>Let's work<br/><span style="color:var(--accent)">together.</span></h2>
+        <p>
+          I'm actively looking for <strong>working student</strong> and internship opportunities in
+          <strong>frontend / full-stack engineering</strong> in Munich.
+          Happy to chat about React, TypeScript, anything web-related, or just say hi.
+        </p>
+        <div style="margin-top:1.5rem">
+          <a href="https://crowndesk01-cmyk.github.io/portfolio/" target="_blank" rel="noopener" class="btn btn-glass" style="display:inline-flex;margin-right:.75rem;margin-bottom:.75rem">
+            CrownDesk Portfolio →
+          </a>
+          <a href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener" class="btn btn-glass" style="display:inline-flex;margin-bottom:.75rem">
+            GitHub →
+          </a>
+        </div>
+      </div>
+
+      <div class="contact-right">
+        <a href="mailto:shreyasnandi04@gmail.com" class="contact-row">
+          <span class="contact-row-icon"><svg class="ic"><use href="#ic-mail"/></svg></span>
+          <div>
+            <h4>Email</h4>
+            <p>shreyasnandi04@gmail.com</p>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <a href="https://github.com/crowndesk01-cmyk" target="_blank" rel="noopener" class="contact-row">
+          <span class="contact-row-icon"><svg class="ic"><use href="#ic-code"/></svg></span>
+          <div>
+            <h4>GitHub</h4>
+            <p>github.com/crowndesk01-cmyk</p>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <div class="contact-row">
+          <span class="contact-row-icon"><svg class="ic"><use href="#ic-pin"/></svg></span>
+          <div>
+            <h4>Location</h4>
+            <p>München, Deutschland</p>
+          </div>
+          <span class="contact-arrow">→</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-icon"><svg class="ic"><use href="#ic-cap"/></svg></span>
+          <div>
+            <h4>Education</h4>
+            <p>M.Sc. Big Data · FOM Hochschule · 2025–present</p>
+          </div>
+          <span class="contact-arrow">→</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-row-icon"><svg class="ic"><use href="#ic-star8"/></svg></span>
+          <div>
+            <h4>Status</h4>
+            <p>Open to working student &amp; internship roles</p>
+          </div>
+          <span class="contact-arrow">→</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <p>© <span id="yr"></span> <strong>Shreyas Nandi</strong> · Built with HTML, CSS &amp; JS</p>
+      <div class="footer-links">
+        <a href="mailto:shreyasnandi04@gmail.com">Email</a>
+        <a href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://crowndesk01-cmyk.github.io/portfolio/" target="_blank">CrownDesk Portfolio</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
