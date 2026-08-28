@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="ping-title ping-desc">
+  <title id="ping-title">Ping, the SpeakUp study assistant</title>
+  <desc id="ping-desc">A friendly animated round study assistant with an antenna and expressive face.</desc>
+  <defs>
+    <radialGradient id="ping-body" cx="34%" cy="26%" r="78%">
+      <stop offset="0" stop-color="#a8dfb9"/>
+      <stop offset="0.5" stop-color="#68bb88"/>
+      <stop offset="1" stop-color="#39765a"/>
+    </radialGradient>
+    <linearGradient id="ping-ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6f9fce"/>
+      <stop offset="1" stop-color="#e9a63c"/>
+    </linearGradient>
+    <filter id="ping-glow" x="-70%" y="-70%" width="240%" height="240%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <style>
+    .ping-orbit-a { transform-origin: 120px 126px; animation: ping-orbit 12s linear infinite; }
+    .ping-orbit-b { transform-origin: 120px 126px; animation: ping-orbit 17s linear infinite reverse; }
+    .ping-buddy { transform-origin: 120px 132px; animation: ping-float 3s ease-in-out infinite; }
+    .ping-eyes { transform-origin: 120px 126px; animation: ping-blink 5s ease-in-out infinite; }
+    .ping-spark { animation: ping-spark 1.8s ease-in-out infinite; }
+    .ping-wave { stroke-dasharray: 8 9; animation: ping-wave 3.8s linear infinite; }
+    @keyframes ping-orbit { to { transform: rotate(360deg); } }
+    @keyframes ping-float { 0%,100% { transform: translateY(3px); } 50% { transform: translateY(-6px); } }
+    @keyframes ping-blink { 0%,44%,48%,100% { transform: scaleY(1); } 46% { transform: scaleY(.08); } }
+    @keyframes ping-spark { 0%,100% { opacity: .45; transform: translateY(2px); } 50% { opacity: 1; transform: translateY(-3px); } }
+    @keyframes ping-wave { to { stroke-dashoffset: -34; } }
+    @media (prefers-reduced-motion: reduce) {
+      .ping-orbit-a, .ping-orbit-b, .ping-buddy, .ping-eyes, .ping-spark, .ping-wave { animation: none; }
+    }
+  </style>
+
+  <circle cx="120" cy="126" r="92" fill="#69b989" fill-opacity="0.035" stroke="#69b989" stroke-opacity="0.12"/>
+  <g class="ping-orbit-a" fill="none" stroke="url(#ping-ring)" stroke-opacity="0.45">
+    <ellipse cx="120" cy="126" rx="100" ry="54" stroke-dasharray="3 9"/>
+    <circle cx="220" cy="126" r="4" fill="#e9a63c" stroke="none" filter="url(#ping-glow)"/>
+  </g>
+  <g class="ping-orbit-b" fill="none" stroke="#6f9fce" stroke-opacity="0.28">
+    <ellipse cx="120" cy="126" rx="57" ry="104" stroke-dasharray="2 11"/>
+    <circle cx="120" cy="22" r="3" fill="#6f9fce" stroke="none"/>
+  </g>
+  <path class="ping-wave" d="M30 185C63 212 94 200 120 219C146 200 177 212 210 185" fill="none" stroke="#69b989" stroke-opacity="0.32" stroke-width="1.5"/>
+
+  <g class="ping-buddy">
+    <line x1="120" y1="63" x2="120" y2="43" stroke="#9ed9b3" stroke-width="5" stroke-linecap="round"/>
+    <circle class="ping-spark" cx="120" cy="36" r="7" fill="#f0b755" filter="url(#ping-glow)"/>
+    <circle cx="120" cy="130" r="70" fill="#69b989" fill-opacity="0.14"/>
+    <circle cx="120" cy="130" r="59" fill="url(#ping-body)" stroke="#c8ecd2" stroke-opacity="0.5" stroke-width="2"/>
+    <path d="M72 128C62 128 55 136 55 146M168 128C178 128 185 136 185 146" fill="none" stroke="#6f9fce" stroke-opacity="0.58" stroke-width="4" stroke-linecap="round"/>
+    <g class="ping-eyes" fill="#13251b">
+      <ellipse cx="99" cy="122" rx="7" ry="10"/>
+      <ellipse cx="141" cy="122" rx="7" ry="10"/>
+      <circle cx="101" cy="119" r="2" fill="#dff4e4"/>
+      <circle cx="143" cy="119" r="2" fill="#dff4e4"/>
+    </g>
+    <circle cx="87" cy="144" r="8" fill="#d78172" fill-opacity="0.65"/>
+    <circle cx="153" cy="144" r="8" fill="#d78172" fill-opacity="0.65"/>
+    <path d="M103 146Q120 164 137 146" fill="none" stroke="#173022" stroke-width="5" stroke-linecap="round"/>
+    <path d="M94 105Q100 98 108 103M132 103Q140 98 146 105" fill="none" stroke="#d7efdd" stroke-opacity="0.72" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>

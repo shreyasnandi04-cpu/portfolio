@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#15120f" />
+  <title>CrownDesk | Three Products Built by Shreyas Nandi</title>
+  <meta name="description" content="CrownDesk is where Shreyas Nandi brings together JobDesk, MediNest, and Nexora: three products shaped around real student problems." />
+  <meta name="author" content="Shreyas Nandi" />
+  <meta property="og:title" content="CrownDesk | Built by Shreyas Nandi" />
+  <meta property="og:description" content="Meet JobDesk, MediNest, and Nexora, and see why Shreyas built each one." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="photo_small.jpg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="site site-crowndesk">
+  <canvas id="motionCanvas" aria-hidden="true"></canvas>
+  <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+
+  <header class="site-nav" id="siteNav">
+    <a class="brand" href="index.html" aria-label="Back to Shreyas portfolio">
+      <span class="brand-mark">CD</span>
+      <span class="brand-copy"><strong>CrownDesk</strong><small>Built by Shreyas</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="CrownDesk navigation">
+      <span class="nav-indicator" id="navIndicator" aria-hidden="true"></span>
+      <a href="#overview">The idea</a>
+      <a href="#jobdesk">JobDesk</a>
+      <a href="#medinest">MediNest</a>
+      <a href="#nexora">Nexora</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="nav-social" href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener"><span>GitHub</span><i aria-hidden="true"></i></a>
+      <a class="nav-social" href="https://www.linkedin.com/in/shreyasnandi/" target="_blank" rel="noopener noreferrer"><span>LinkedIn</span><i aria-hidden="true"></i></a>
+    </div>
+    <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <a href="#overview">The idea</a>
+    <a href="#jobdesk">JobDesk</a>
+    <a href="#medinest">MediNest</a>
+    <a href="#nexora">Nexora</a>
+    <a href="#engineering">Engineering</a>
+    <a href="#contact">Contact</a>
+    <a href="index.html">Shreyas portfolio</a>
+    <a href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/shreyasnandi/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </nav>
+
+  <main id="top">
+    <section class="hero project-hero">
+      <div class="hero-copy reveal">
+        <p class="kicker">My biggest project so far</p>
+        <h1>CrownDesk</h1>
+        <p class="hero-lede">
+          I started CrownDesk to bring three ideas under one roof: JobDesk helps students stay on top
+          of a job search, MediNest makes medical study more interactive, and Nexora helps students
+          find their community. Building them has taken me through the interface, backend, databases,
+          and AI integrations of each product.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="#jobdesk">Meet the three products</a>
+          <a class="button secondary" href="index.html">Back to my portfolio</a>
+          <a class="button secondary" href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <div class="flow-graphic" aria-label="A moving view of how CrownDesk connects its three products">
+          <div class="flow-status"><i></i><span>Three products connected</span></div>
+          <div class="flow-core">CrownDesk Hub</div>
+          <div class="flow-track track-job"></div>
+          <div class="flow-track track-med"></div>
+          <div class="flow-track track-nex"></div>
+          <a class="flow-node flow-job" href="#jobdesk">JobDesk</a>
+          <a class="flow-node flow-med" href="#medinest">MediNest</a>
+          <a class="flow-node flow-nex" href="#nexora">Nexora</a>
+          <span class="packet packet-one"></span>
+          <span class="packet packet-two"></span>
+          <span class="packet packet-three"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-strip" aria-label="CrownDesk highlights">
+      <div class="stat reveal">
+        <strong data-count="3">0</strong>
+        <span>connected products</span>
+      </div>
+      <div class="stat reveal">
+        <strong data-count="15">0</strong>
+        <span>learning modules in MediNest</span>
+      </div>
+      <div class="stat reveal">
+        <strong>AI</strong>
+        <span>Claude, Groq, DeepL, and PubMed</span>
+      </div>
+      <div class="stat reveal">
+        <strong>End to end</strong>
+        <span>from database to interface</span>
+      </div>
+    </section>
+
+    <section class="section" id="overview">
+      <div class="section-label reveal">The idea</div>
+      <div class="split">
+        <div class="reveal">
+          <h2>Three products, built around real student problems.</h2>
+          <p>
+            Students often juggle job applications, demanding coursework, and the challenge of finding
+            their people in a new city. I gave each problem its own product, then connected the thinking
+            behind them. I also worked through the less visible but important parts: secure accounts,
+            admin checks, reliable data, and AI features that have a clear purpose.
+          </p>
+        </div>
+        <div class="architecture-card reveal" data-tilt>
+          <div class="arch-row">
+            <span>At the centre</span>
+            <strong>A shared hub for routing, status checks, and admin tools</strong>
+          </div>
+          <div class="arch-row">
+            <span>Three products</span>
+            <strong>JobDesk, MediNest, Nexora</strong>
+          </div>
+          <div class="arch-row">
+            <span>What I built with</span>
+            <strong>Flask, FastAPI, Next.js, PostgreSQL, Redis</strong>
+          </div>
+          <div class="arch-row">
+            <span>Helpful integrations</span>
+            <strong>Claude, Groq, DeepL, PubMed</strong>
+          </div>
+        </div>
+      </div>
+      <div class="case-study-grid">
+        <article class="case-study-card reveal">
+          <span>01 / Challenge</span>
+          <h3>Too many disconnected student tools</h3>
+          <p>Career planning, difficult study material, and community support usually live in separate places. CrownDesk explores how those parts of student life can feel more connected.</p>
+        </article>
+        <article class="case-study-card reveal">
+          <span>02 / My role</span>
+          <h3>End-to-end ownership</h3>
+          <p>I handle the product thinking, interface design, backend services, database models, integrations, testing, and deployment setup across the ecosystem.</p>
+        </article>
+        <article class="case-study-card reveal">
+          <span>03 / Structure</span>
+          <h3>One hub, three independent products</h3>
+          <p>The hub provides the shared entry point, routing, service status, and administration, while each product can be developed and deployed independently.</p>
+        </article>
+        <article class="case-study-card reveal">
+          <span>04 / Current stage</span>
+          <h3>Actively developing and testing</h3>
+          <p>I am refining the connected experience, strengthening security and admin controls, and testing features before a wider public release.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="product-portfolio jobdesk" id="jobdesk" data-index="01">
+      <div class="product-portfolio-grid">
+        <div class="product-story reveal">
+          <p class="kicker">01 - Keeping job searches organised</p>
+          <h2>JobDesk</h2>
+          <p>
+            JobDesk began with a problem I had myself: my applications were spread across emails,
+            notes, and folders. I wanted one place where I could see what I had applied for, keep the
+            right documents close, compare my CV with a role, and remember when to follow up.
+          </p>
+          <div class="feature-list">
+            <span>See every application and where it stands</span>
+            <span>Bring application data in or take it out with CSV</span>
+            <span>Keep CVs and cover letters together</span>
+            <span>Compare a CV with the job description</span>
+            <span>Prepare emails, interviews, and follow-ups with AI support</span>
+            <span>Use reminders, company research, and progress analytics</span>
+          </div>
+          <div class="tag-row">
+            <span>Flask</span><span>SQLAlchemy</span><span>Chart.js</span><span>Bootstrap</span><span>CSV</span>
+          </div>
+          <div class="product-notes">
+            <div>
+              <span>Engineering focus</span>
+              <p>A Flask and SQLAlchemy application that keeps applications, documents, reminders, and analytics connected around one career workflow.</p>
+            </div>
+            <div>
+              <span>What I learned</span>
+              <p>A useful dashboard starts with a clear data model. Statuses, dates, documents, and follow-ups need to work together before the charts can add value.</p>
+            </div>
+          </div>
+          <div class="button-row">
+            <a class="button primary" href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">Visit GitHub</a>
+            <a class="button secondary" href="index.html">About me</a>
+          </div>
+        </div>
+        <div class="product-visual-card reveal" data-tilt>
+          <div class="dashboard-mock">
+            <div class="mock-head">
+              <span>JobDesk</span>
+              <strong>Career score 82</strong>
+            </div>
+            <div class="pipeline">
+              <i style="--h:45%"></i><i style="--h:72%"></i><i style="--h:38%"></i><i style="--h:88%"></i><i style="--h:61%"></i>
+            </div>
+            <div class="mock-list">
+              <span>Applied - Frontend Intern</span>
+              <span>Interview - Working Student</span>
+              <span>Follow-up - Full-stack Role</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-portfolio medinest" id="medinest" data-index="02">
+      <div class="product-portfolio-grid reverse">
+        <div class="product-story reveal">
+          <p class="kicker">02 - Making medical study more interactive</p>
+          <h2>MediNest</h2>
+          <p>
+            With MediNest, I wanted to explore how technology could make dense medical subjects easier
+            to work through. Its fifteen modules let students ask questions, practise clinical cases,
+            think through diagnoses, translate material, and look up trusted medical references without
+            jumping between a dozen tools.
+          </p>
+          <div class="feature-list">
+            <span>Ask questions with an AI study assistant</span>
+            <span>Work through clinical cases and diagnosis exercises</span>
+            <span>Explore anatomy, drug information, and safety checks</span>
+            <span>Translate study material with DeepL</span>
+            <span>Look up ICD-11 information and PubMed research</span>
+            <span>Track health, medication, rotations, wellness, and visa tasks</span>
+          </div>
+          <div class="tag-row">
+            <span>Next.js</span><span>React</span><span>FastAPI</span><span>PostgreSQL</span><span>Claude</span>
+          </div>
+          <div class="product-notes">
+            <div>
+              <span>Engineering focus</span>
+              <p>A Next.js interface backed by modular FastAPI routers, PostgreSQL, and Redis, with separate services for study tools, trackers, authentication, and external APIs.</p>
+            </div>
+            <div>
+              <span>What I learned</span>
+              <p>Medical software needs clear boundaries. Educational AI, source lookup, disclaimers, and modular services all matter when a feature touches health information.</p>
+            </div>
+          </div>
+          <div class="button-row">
+            <a class="button primary" href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">Visit GitHub</a>
+            <a class="button secondary" href="https://www.linkedin.com/in/shreyasnandi/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+        </div>
+        <div class="product-visual-card reveal" data-tilt>
+          <div class="med-mock">
+            <div class="body-line"></div>
+            <div class="pulse-line"></div>
+            <div class="module-grid">
+              <span>AI assistant</span><span>Case simulator</span><span>ICD-11</span><span>PubMed</span>
+              <span>Translator</span><span>Diagnosis</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-portfolio nexora" id="nexora" data-index="03">
+      <div class="product-portfolio-grid">
+        <div class="product-story reveal">
+          <p class="kicker">03 - Helping students find their people</p>
+          <h2>Nexora</h2>
+          <p>
+            Moving somewhere new can feel isolating, especially when you do not yet know anyone at your
+            university. I designed Nexora to help students discover people with a shared university,
+            country, or interest, then get to know them through posts, conversations, and short-lived stories.
+          </p>
+          <div class="feature-list">
+            <span>Find students through shared interests and backgrounds</span>
+            <span>Connect through posts, comments, chat, and stories</span>
+            <span>Join communities, discover events, and explore nearby activity</span>
+            <span>Confirm new accounts with an email code</span>
+            <span>Keep the community student-focused through ID review</span>
+            <span>Support moderation with admin tools, limits, and audit views</span>
+          </div>
+          <div class="tag-row">
+            <span>Flask</span><span>SQL</span><span>Auth</span><span>Groq</span><span>Claude</span>
+          </div>
+          <div class="product-notes">
+            <div>
+              <span>Engineering focus</span>
+              <p>A Flask-based social platform with profiles, feeds, communities, events, direct messaging, OTP sign-up, student-ID review, and a separate admin surface.</p>
+            </div>
+            <div>
+              <span>What I learned</span>
+              <p>Community products are not only about engagement. Identity checks, moderation, rate limits, and transparent admin actions are part of the product experience.</p>
+            </div>
+          </div>
+          <div class="button-row">
+            <a class="button primary" href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">Visit GitHub</a>
+            <a class="button secondary" href="index.html#contact">Contact</a>
+          </div>
+        </div>
+        <div class="product-visual-card reveal" data-tilt>
+          <div class="network-mock">
+            <span class="person p1"></span><span class="person p2"></span><span class="person p3"></span><span class="person p4"></span>
+            <div class="network-line nl1"></div>
+            <div class="network-line nl2"></div>
+            <div class="network-line nl3"></div>
+            <div class="chat-card">Munich students - story shared today</div>
+            <div class="chat-card second">Student profile verified</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section engineering-section" id="engineering">
+      <div class="section-label reveal">Engineering the ecosystem</div>
+      <div class="engineering-intro">
+        <div class="reveal">
+          <h2>The difficult part was not building three pages. It was making three products behave like one system.</h2>
+        </div>
+        <div class="reveal">
+          <p>CrownDesk gave me experience with the parts of software that sit between a feature and a dependable product: authentication, routing, data ownership, usage limits, admin visibility, failure states, and deployment configuration.</p>
+        </div>
+      </div>
+
+      <div class="system-flow reveal" aria-label="How a request moves through CrownDesk">
+        <div class="system-flow-track"><i></i></div>
+        <div class="system-stage"><span>01</span><strong>Visitor</strong><small>Browser request</small></div>
+        <div class="system-stage"><span>02</span><strong>CrownDesk Hub</strong><small>Route + status</small></div>
+        <div class="system-stage"><span>03</span><strong>Product service</strong><small>Business logic</small></div>
+        <div class="system-stage"><span>04</span><strong>Data + APIs</strong><small>Store + integrate</small></div>
+      </div>
+
+      <div class="engineering-grid">
+        <article class="engineering-card reveal">
+          <span>Architecture</span>
+          <h3>Modular services</h3>
+          <p>The hub fronts independently deployable Flask and FastAPI applications, so one product can evolve without forcing every service to change at once.</p>
+        </article>
+        <article class="engineering-card reveal">
+          <span>Security</span>
+          <h3>Accounts need layers of protection</h3>
+          <p>Hashed passwords, OTP email verification, CSRF protection, rate limiting, production secret checks, and admin review form the security baseline.</p>
+        </article>
+        <article class="engineering-card reveal">
+          <span>Data</span>
+          <h3>Different products, different state</h3>
+          <p>SQLAlchemy models support the Flask products, PostgreSQL backs larger structured workloads, and Redis helps where fast temporary state is useful.</p>
+        </article>
+        <article class="engineering-card reveal">
+          <span>AI and APIs</span>
+          <h3>Useful only with a clear job</h3>
+          <p>Claude, Groq, DeepL, ICD-11, and PubMed integrations are attached to specific workflows, with limits and safety messaging where the context demands it.</p>
+        </article>
+        <article class="engineering-card reveal">
+          <span>Operations</span>
+          <h3>Admin and service visibility</h3>
+          <p>Separate admin views support user review, analytics, audit history, feedback, broadcasts, and service-health awareness across the ecosystem.</p>
+        </article>
+        <article class="engineering-card reveal">
+          <span>Delivery</span>
+          <h3>Designed beyond local development</h3>
+          <p>Gunicorn, Docker, nginx, environment-based configuration, and Render deployment shaped how routes, secrets, and service boundaries were designed.</p>
+        </article>
+      </div>
+
+      <div class="lessons-panel reveal">
+        <div class="lessons-heading">
+          <span>What CrownDesk changed for me</span>
+          <h3>Three lessons I will carry into a development team</h3>
+        </div>
+        <div class="lesson-list">
+          <div><strong>Start with the workflow.</strong><p>The technology becomes easier to choose when the user's real problem is clear.</p></div>
+          <div><strong>Security is product work.</strong><p>Verification, limits, review tools, and safe defaults shape whether people can trust an application.</p></div>
+          <div><strong>Own the whole path.</strong><p>Following a feature from interface to database to deployment exposes the trade-offs that isolated coding exercises miss.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="contact-card reveal">
+        <div>
+          <p class="kicker">What's next</p>
+          <h2>CrownDesk taught me how much I enjoy building. Now I want to do it with a team.</h2>
+          <p>I'm looking for a working student role or internship in Munich.</p>
+        </div>
+        <div class="contact-actions">
+          <a class="button primary" href="mailto:shreyasnandi04@gmail.com">Email Shreyas</a>
+          <a class="button secondary" href="https://www.linkedin.com/in/shreyasnandi/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a class="button secondary" href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="index.html">Back to Shreyas</a>
+    <a href="speakup.html">SpeakUp</a>
+    <a href="#jobdesk">JobDesk</a>
+    <a href="#medinest">MediNest</a>
+    <a href="#nexora">Nexora</a>
+    <a href="#engineering">Engineering</a>
+    <a href="https://github.com/shreyasnandi04-cpu" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/shreyasnandi/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="SpeakUp">
+  <title>SpeakUp</title>
+  <path d="M20 6h60a16 16 0 0 1 16 16v42a16 16 0 0 1-16 16H43L23 96a2 2 0 0 1-3.2-2.1L24 80h-4A16 16 0 0 1 4 64V22A16 16 0 0 1 20 6Z" fill="#E9A63C"/>
+  <g fill="#2B1A08">
+    <rect x="27" y="58" width="46" height="9" rx="3.2"/>
+    <rect x="32" y="45" width="36" height="9" rx="3.2"/>
+    <rect x="37" y="32" width="26" height="9" rx="3.2"/>
+    <rect x="42" y="19" width="16" height="9" rx="3.2"/>
+  </g>
+</svg>

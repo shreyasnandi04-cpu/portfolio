@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 430" role="img" aria-labelledby="tower-title tower-desc">
+  <title id="tower-title">SpeakUp language tower</title>
+  <desc id="tower-desc">An isometric language tower with six certified floors, one active construction floor, and three scaffolded floors above.</desc>
+  <defs>
+    <linearGradient id="sky-wash" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#294438" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#17201c" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="plaza" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#436757" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#dda74f" stop-opacity="0.08"/>
+    </linearGradient>
+    <linearGradient id="built-left" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#73a78b"/>
+      <stop offset="1" stop-color="#345c49"/>
+    </linearGradient>
+    <linearGradient id="built-right" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#315340"/>
+      <stop offset="1" stop-color="#1e3b2e"/>
+    </linearGradient>
+    <linearGradient id="active-left" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2c66e"/>
+      <stop offset="1" stop-color="#a86921"/>
+    </linearGradient>
+    <linearGradient id="active-right" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a96923"/>
+      <stop offset="1" stop-color="#6f4318"/>
+    </linearGradient>
+    <filter id="active-glow" x="-40%" y="-80%" width="180%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="window-glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="1.8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <g id="floor-built">
+      <polygon points="180,280 250,312 180,344 110,312" fill="#82a996" fill-opacity="0.34"/>
+      <polygon points="110,312 180,344 180,364 110,332" fill="url(#built-left)"/>
+      <polygon points="180,344 250,312 250,332 180,364" fill="url(#built-right)"/>
+      <path d="M110 332L180 364L250 332" fill="none" stroke="#9bc4aa" stroke-opacity="0.42" stroke-width="1"/>
+      <g class="tower-windows" fill="#e5f1bd" filter="url(#window-glow)">
+        <polygon points="124,319 134,324 134,332 124,327"/>
+        <polygon points="143,328 153,333 153,341 143,336"/>
+        <polygon points="207,330 217,325 217,333 207,338"/>
+        <polygon points="226,321 236,316 236,324 226,329"/>
+      </g>
+    </g>
+
+    <g id="floor-active">
+      <polygon class="active-top" points="180,280 250,312 180,344 110,312" fill="#f4c76e" fill-opacity="0.75"/>
+      <polygon points="110,312 180,344 180,364 110,332" fill="url(#active-left)"/>
+      <polygon points="180,344 250,312 250,332 180,364" fill="url(#active-right)"/>
+      <path d="M110 332L180 364L250 332" fill="none" stroke="#ffe4a8" stroke-opacity="0.78" stroke-width="1.2"/>
+      <g fill="#fff0b8" filter="url(#window-glow)">
+        <polygon points="124,319 134,324 134,332 124,327"/>
+        <polygon points="143,328 153,333 153,341 143,336"/>
+        <polygon points="207,330 217,325 217,333 207,338"/>
+        <polygon points="226,321 236,316 236,324 226,329"/>
+      </g>
+    </g>
+
+    <g id="floor-locked" fill="none" stroke="#93b8a4" stroke-opacity="0.42" stroke-width="1.1" stroke-dasharray="4 4">
+      <polygon points="180,280 250,312 180,344 110,312"/>
+      <polygon points="110,312 180,344 180,364 110,332"/>
+      <polygon points="180,344 250,312 250,332 180,364"/>
+      <path d="M110 312L180 364M250 312L180 364" stroke-opacity="0.2"/>
+    </g>
+  </defs>
+
+  <style>
+    .built-floor { opacity: 1; animation: floor-arrive 700ms cubic-bezier(.22,1,.36,1) both; }
+    .floor-1 { animation-delay: 80ms; }
+    .floor-2 { animation-delay: 150ms; }
+    .floor-3 { animation-delay: 220ms; }
+    .floor-4 { animation-delay: 290ms; }
+    .floor-5 { animation-delay: 360ms; }
+    .floor-6 { animation-delay: 430ms; }
+    .locked-floor { opacity: .82; animation: scaffold-arrive 600ms ease-out both; }
+    .locked-1 { animation-delay: 660ms; }
+    .locked-2 { animation-delay: 740ms; }
+    .locked-3 { animation-delay: 820ms; }
+    .locked-4 { animation-delay: 900ms; }
+    .locked-5 { animation-delay: 980ms; }
+    .active-floor { animation: active-pulse 2.6s ease-in-out infinite; }
+    .tower-windows { animation: window-life 4.6s ease-in-out infinite; }
+    .floor-2 .tower-windows, .floor-5 .tower-windows { animation-delay: 1.1s; }
+    .energy-line { stroke-dasharray: 10 12; animation: energy-climb 2.8s linear infinite; }
+    .crane-hook { transform-box: fill-box; transform-origin: center top; animation: hook-work 3.4s ease-in-out infinite; }
+    .signal { animation: signal-pulse 1.8s ease-in-out infinite; }
+    @keyframes floor-arrive { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scaffold-arrive { from { opacity: 0; } to { opacity: .82; } }
+    @keyframes active-pulse { 0%,100% { opacity: .78; filter: url(#active-glow); } 50% { opacity: 1; filter: url(#active-glow); } }
+    @keyframes window-life { 0%,100% { opacity: .65; } 50% { opacity: 1; } }
+    @keyframes energy-climb { to { stroke-dashoffset: -44; } }
+    @keyframes hook-work { 0%,100% { transform: translateY(0); } 50% { transform: translateY(14px); } }
+    @keyframes signal-pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .built-floor, .locked-floor, .active-floor, .tower-windows, .energy-line, .crane-hook, .signal { animation: none; opacity: 1; }
+    }
+  </style>
+
+  <rect width="360" height="430" fill="url(#sky-wash)"/>
+  <path d="M28 360L180 292L332 360L180 426Z" fill="url(#plaza)" stroke="#6d9b83" stroke-opacity="0.35"/>
+  <path d="M67 360L180 310L293 360L180 410Z" fill="none" stroke="#dba957" stroke-opacity="0.2"/>
+  <path d="M105 360L180 327L255 360L180 393Z" fill="none" stroke="#7faf96" stroke-opacity="0.2"/>
+  <ellipse cx="180" cy="366" rx="116" ry="20" fill="#050806" fill-opacity="0.28"/>
+
+  <path class="energy-line" d="M63 357C112 327 126 281 158 240C182 210 208 174 236 123" fill="none" stroke="#efb757" stroke-width="1.5" stroke-opacity="0.58"/>
+  <circle r="4" fill="#ffd98d" filter="url(#window-glow)">
+    <animateMotion dur="3.2s" repeatCount="indefinite" path="M63 357C112 327 126 281 158 240C182 210 208 174 236 123"/>
+  </circle>
+
+  <g class="built-floor floor-1"><use href="#floor-built"/></g>
+  <g class="built-floor floor-2" transform="translate(3 -20) scale(.984 1)"><use href="#floor-built"/></g>
+  <g class="built-floor floor-3" transform="translate(6 -40) scale(.968 1)"><use href="#floor-built"/></g>
+  <g class="built-floor floor-4" transform="translate(9 -60) scale(.952 1)"><use href="#floor-built"/></g>
+  <g class="built-floor floor-5" transform="translate(12 -80) scale(.936 1)"><use href="#floor-built"/></g>
+  <g class="built-floor floor-6" transform="translate(14 -100) scale(.92 1)"><use href="#floor-built"/></g>
+  <g class="active-floor" transform="translate(17 -120) scale(.904 1)"><use href="#floor-active"/></g>
+  <g class="locked-floor locked-1" transform="translate(20 -140) scale(.888 1)"><use href="#floor-locked"/></g>
+  <g class="locked-floor locked-2" transform="translate(23 -160) scale(.872 1)"><use href="#floor-locked"/></g>
+  <g class="locked-floor locked-3" transform="translate(26 -180) scale(.856 1)"><use href="#floor-locked"/></g>
+  <g class="locked-floor locked-4" transform="translate(29 -200) scale(.84 1)"><use href="#floor-locked"/></g>
+  <g class="locked-floor locked-5" transform="translate(32 -220) scale(.824 1)"><use href="#floor-locked"/></g>
+
+  <g class="signal" fill="none" stroke="#f4bd5b" stroke-width="1.4">
+    <path d="M180 60V38"/>
+    <path d="M170 45Q180 35 190 45" stroke-opacity="0.52"/>
+    <path d="M163 38Q180 21 197 38" stroke-opacity="0.22"/>
+  </g>
+
+  <g stroke="#c3d6ca" stroke-width="1.4" stroke-linecap="round" opacity="0.75">
+    <path d="M232 198V124"/>
+    <path d="M207 124H301"/>
+    <path d="M232 124L252 110"/>
+    <path d="M291 124V137"/>
+    <g class="crane-hook">
+      <path d="M291 137V172" stroke="#efb757"/>
+      <path d="M286 172H296L291 180Z" fill="#efb757" stroke="none"/>
+    </g>
+  </g>
+
+</svg>
